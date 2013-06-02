@@ -128,7 +128,7 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
             my_rect = pygame.Rect((40, 40, 600, 600))
             text = render_textrect(INSTRUCTIONTEXT+str(N), font, my_rect, (255,148,0), (0,0,0))
             #text = font.render("INSTRUCTIONS", 1, (255,255,100))
-            self.draw_rectlist.append(self.screen.blit(text, (50,100)))
+            self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
             ScreenUpdate(self)
             time.sleep(1)
             for event in pygame.event.get():

@@ -18,6 +18,12 @@ from numpy import *
 import cgkit.flockofbirds as FOB
 import random
 
+#6/2 ToDo: change all flags and what not to reflect dual training, add a few variables, test.
+
+
+
+
+
 #==== This is the main game class, where all the game pertinent stuff is initialized and the trial loop lives ====
 class Game:
     def __init__(self):
@@ -117,6 +123,26 @@ class Game:
         invalidsound.set_volume(.6)
         slowsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\Soundeffects\SLOWWW.wav")
         slowsound.set_volume(.3)
+
+        #Loading dual task images
+        0DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\0.png")
+        1DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\1.png")
+        2DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\2.png")
+        3DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\3.png")
+        4DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\4.png")
+        5DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\5.png")
+        6DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\6.png")
+        7DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\7.png")
+        8DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\8.png")
+        9DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\9.png")
+        10DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\10.png")
+        11DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\11.png")
+        12DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\12.png")
+        13DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\13.png")
+        14DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\14.png")
+        15DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\15.png")
+        DUALRECT = 0DT.getrect()
+        dual_ls_image = [0DT,1DT,2DT,3DT,4DT,5DT,6DT,7DT,8DT,9DT,10DT,11DT,12DT,13DT,14DT,15DT]
         
         #Game Pertinent Functions----------------------------------------------------------------------
         def CurrentEvent(self):
@@ -171,7 +197,8 @@ class Game:
             
             #Write the data (occurs after every trial
             WriteGameData(self,DATA_DIR,history,history_keys,) #This is a general function defined in basiccatgamewindow
-        #--------------------------------------------------------------------------------------------------------------        
+        #--------------------------------------------------------------------------------------------------------------
+  
         
         #iteration variables
         sample_time = 0
@@ -428,57 +455,23 @@ class Game:
                     
 
             if DUAL_TASK_P:
+                #to do
                 #potentially need to reset self.statetime to get a raw RT for dual task?
-
+                #present in the n=1 back and the n=2 back, with a 10% possibility of repition
+                #use spacebar
                 self.state_time += dt
                 CurrentEvent(self)
-                
                 self.screen.fill(BACKGROUND_COLOR)
-##                
-##                
-##                #update timing
-##
-##
-##                #### This is for the stroop dual task, we are going to go with the gilbert spatial squares n-back instead
-##
-##                
-##                #jittering
-##                #a = random.randint(-220,320)
-##                #b = random.randint(-150,250)
-##                #c = random.randint(-320,650)
-##                #d = random.randint(-189,200)
-##                e=450+a
-##                f=400+b
-##                g=650+c
-##                h=500+d
-##
-##
-##
-##                
-##                #get shuffled numbers
-##                random.shuffle(Fontsizes)
-##                random.shuffle(Numbs)
-##
-##                # display is a pair of pairs- [(6,18),(4,22)] a size 18pt '6' and a size 22pt '4'
-##                disp_pair = [(Numbs[0],Fontsizes[0]),(Numbs[1],Fontsizes[1])]
-##                dualfont1 = pygame.font.Font(None, Fontsizes[0])
-##                dualfont2 = pygame.font.Font(None, Fontsizes[1])
-##                text1 = dualfont1.render(str(Numbs[0]),1,(220,32,220))
-##                text2 = dualfont2.render(str(Numbs[1]),1,(220,32,220))
-##                
-##                
-##                self.draw_rectlist.append(self.screen.blit(text1, (e,f)))
-##                self.draw_rectlist.append(self.screen.blit(text2, (g,h)))
-##                ScreenUpdate(self)
-##                disp_ls.append(disp_pair) #extend?
-               
+                image=dual_ls_image[Dualorder[DUALCOUNTER]]       
+                self.screen.blit(image, DUALRECT)
                 time.sleep(DUAL_DISP_TIME)
-                self.state_time= 0
-                
+               # self.state_time= 0
+
 
                 
                 if trialnum<int(self.N):
                     #just display, if before the right amount of n
+                    DUALCOUNTER += 1
                     self.screen.fill(BACKGROUND_COLOR)
                     TRIAL_START = False
                     STIMULUS = False
@@ -492,6 +485,7 @@ class Game:
                     #need to reset numbs and font size so they don't keep shrinking
                   
                 else:
+                   
                     self.screen.fill(BACKGROUND_COLOR)
                     TRIAL_START = False
                     STIMULUS = False
@@ -500,10 +494,20 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P = False
-                    print self.N
-                    M = len(disp_ls) - int(self.N)
+                    #print self.N
+                    #M = len(disp_ls) - int(self.N)
                     self.state_time = 0
+                    if Dualorder[DUALCOUNTER] == Duralorder[DUALCOUNTER-self.N]:
+                        correctresponse= 'space'
+                    else:
+                        correctresponse= 'return'
                     DUAL_TASK_R = True
+
+#dual task p paste here                                          
+                
+
+                
+                
 
 
 
@@ -511,90 +515,50 @@ class Game:
                     
             if DUAL_TASK_R:
                 
+                
                 self.state_time += dt
                 CurrentEvent(self)
                 #instruct and record
                 #display instruction
+#oold dual task, paste here from bottom
 
-                aa=random.randint(1,10)#for dual taskquestion
-                        
-                
-                if DUALFLAG:
-                    
-                    dualtext="NUMERICALY, which number was bigger in magnitude,\n" + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n'q'= right, 'p'= left"
-                    my_rectt = pygame.Rect((40, 40, 600, 600))
+                dualtext="Was that grid image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
+                my_rectt = pygame.Rect((40, 40, 600, 600))
                     text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
                     #I don't like this key associtation. maybe use 8 and 2?
                     self.draw_rectlist.append(self.screen.blit(text, (50,100)))
                     ScreenUpdate(self)
-                    #time.sleep(1)
-                    nback = disp_ls[M]
-
-                    
-                    if nback[0][0]>nback[1][0]:#selectors, shmlectors.
-                        correctresponse = 'L'
-                    else:
-                        correctresponse = 'R'
-                    
-                    if aa>5:
-                        NEXT_DUALFLAG=True
-                    else:
-                        NEXT_DUALFLAG=False
-                        
-                        #record response
-                    #self.state_time += dt
-                else:
-                    dualtext="PHYSICALY, which number was larger,\n " + ' '+ str(self.N)+' ' + " presentation(s) ago?"
-                    my_rectt = pygame.Rect((40, 40, 600, 600))
-                    text = render_textrect(dualtext, font, my_rectt, (227,146,84), (0,0,0))
-                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
-                    ScreenUpdate(self)
-                   # time.sleep(.5)
-                    
-                    if nback[0][1]>nback[1][1]:
-                        correctresponse = 'L'
-                    else:
-                        correctresponse = 'R'
-                    if aa>5:
-                        NEXT_DUALFLAG = True
-                    else:
-                        NEXT_DUALFLAG = False
-                    
+                
                 for event in pygame.event.get():
                     if event.type == KEYDOWN:
                         
-                        if event_1.dict['key'] == K_q:
-                            if 'L'==correctresponse:
+                        if event_1.dict['key'] == K_RETURN:
+                            if 'return'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
                                 ITI=True
                                 DUAL_TASK_R=False
-                                print 'hurrraaah'
-                                DUALFLAG = NEXT_DUALFLAG
+                                DUALCOUNTER += 1
                                 
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
-                                
                                 ITI=True
                                 DUAL_TASK_R=False
-                                print 'bleep'
-                                DUALFLAG = NEXT_DUALFLAG
-                        elif event.dict['key'] == K_p:
-                            if 'R'==correctresponse:
+                                DUALCOUNTER += 1
+                        elif event.dict['key'] == K_SPACE:
+                            if 'space'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
-                                print 'hurrraaahpleeb'
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALFLAG = NEXT_DUALFLAG
+                                DUALCOUNTER += 1
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
-                                print 'what is on first!'
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALFLAG = NEXT_DUALFLAG
+                                DUALCOUNTER += 1
                         elif event.dict['key'] == K_ESCAPE:
                             pygame.display.quit()   #Closes the display
                             sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
@@ -613,17 +577,17 @@ class Game:
                             INVALID_KEY = False
                             DUAL_TASK_P = False
                             DUAL_TASK_R = False
-                            DUALFLAG = NEXT_DUALFLAG
-                        else:
-                            TRIAL_START = False
-                            STIMULUS = False
-                            FEEDBACK = False
-                            ITI = False
-                            TOO_SLOW = False
-                            INVALID_KEY = False
-                            DUAL_TASK_P = False
-                            DUAL_TASK_R = True
-                            DUALFLAG = True
+                            self.DTcorrect=-1
+##                        else:
+##                            TRIAL_START = False
+##                            STIMULUS = False
+##                            FEEDBACK = False
+##                            ITI = False
+##                            TOO_SLOW = False
+##                            INVALID_KEY = False
+##                            DUAL_TASK_P = False
+##                            DUAL_TASK_R = True
+##                            #DUALFLAG = True
                             
                             
                                  
@@ -631,7 +595,93 @@ class Game:
                 
                
 
-                 
+            if dual_training:
+                
+                #display "welcome, fellow potentially nondescript RPP person. hereabouts begins your training on the distractor task. 
+                #this will run five times, before a splash screen, after which you will start the experiment proper"
+                #you are going to have to remember sequences of randomly generated white-on-black grids, n presentations ago
+                #sleep or press enter and escape
+                dualtext="""DUAL TASK TRAINING. \n this will run" +str(training_total_runs)+ " after which you will start the experiment proper
+                please remember the grid " + ' ' + str(self.N)+ ' '+ "presentation(s) back from where you are"""
+                my_rectt = pygame.Rect((40, 40, 600, 600))
+                text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
+                
+                #I don't like this key associtation. maybe use 8 and 2?
+                
+                self.draw_rectlist.append(self.screen.blit(text, (50,100)))
+                ScreenUpdate(self)
+                time.sleep(3)
+                
+                for jj in range(training_total_runs):
+                    if jj < self.N:
+                        DUALCOUNTER +=1
+                        #display 'pause?'
+                        self.state_time += dt
+                        CurrentEvent(self)
+                        self.screen.fill(BACKGROUND_COLOR)
+                        image=dual_ls_image[Dualorder[DUALCOUNTER]]       
+                        self.screen.blit(image, DUALRECT)
+                        time.sleep(DUAL_DISP_TIME)
+                        jj +=1               
+                    if Dualorder[DUALCOUNTER] == Duralorder[DUALCOUNTER-self.N]:
+                        correctresponse= 'space'
+                    else:
+                        correctresponse= 'return'               
+
+                    self.state_time += dt
+                    CurrentEvent(self)
+                    #instruct and record
+                    #display instruction
+                    #oold dual task, paste here from bottom
+
+                    dualtext="Was that grid image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
+                    my_rectt = pygame.Rect((40, 40, 600, 600))
+                    text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
+                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
+                    ScreenUpdate(self)
+                    
+                    for event in pygame.event.get():
+                        if event.type == KEYDOWN:
+                            
+                            if event_1.dict['key'] == K_RETURN:
+                                if 'return'==correctresponse:
+                                    self.DTcorrect=1
+                                    self.DTrt = self.state_time
+                                    ITI=True
+                                    DUAL_TASK_R=False
+                                    DUALCOUNTER += 1
+                                    jj +=1
+                                    
+                                else:
+                                    self.DTcorrect=0
+                                    self.DTrt = self.state_time
+                                    ITI=True
+                                    DUAL_TASK_R=False
+                                    DUALCOUNTER += 1
+                                    jj +=1
+                            elif event.dict['key'] == K_SPACE:
+                                if 'space'==correctresponse:
+                                    self.DTcorrect=1
+                                    self.DTrt = self.state_time
+                                    ITI=True
+                                    DUAL_TASK_R=False
+                                    DUALCOUNTER += 1
+                                    jj +=1
+                                else:
+                                    self.DTcorrect=0
+                                    self.DTrt = self.state_time
+                                    ITI=True
+                                    DUAL_TASK_R=False
+                                    DUALCOUNTER += 1
+                                    jj +=1
+                            elif event.dict['key'] == K_ESCAPE:
+                                pygame.display.quit()   #Closes the display
+                                sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
+                                break
+                              
+                                
+                      
+                
 
 
            
@@ -714,7 +764,97 @@ class Game:
             ScreenUpdate(self)
             
 if __name__ == '__main__': Game()
+#old dual task P
+##----------------------------------------------------------------------------------------------------------                
+##                
+##                #update timing
+##
+##
+##                #### This is for the stroop dual task, we are going to go with the gilbert spatial squares n-back instead
+##
+##                
+##                #jittering
+##                #a = random.randint(-220,320)
+##                #b = random.randint(-150,250)
+##                #c = random.randint(-320,650)
+##                #d = random.randint(-189,200)
+##                e=450+a
+##                f=400+b
+##                g=650+c
+##                h=500+d
+##             
+##                #get shuffled numbers
+##                random.shuffle(Fontsizes)
+##                random.shuffle(Numbs)
+##
+##                # display is a pair of pairs- [(6,18),(4,22)] a size 18pt '6' and a size 22pt '4'
+##                disp_pair = [(Numbs[0],Fontsizes[0]),(Numbs[1],Fontsizes[1])]
+##                dualfont1 = pygame.font.Font(None, Fontsizes[0])
+##                dualfont2 = pygame.font.Font(None, Fontsizes[1])
+##                text1 = dualfont1.render(str(Numbs[0]),1,(220,32,220))
+##                text2 = dualfont2.render(str(Numbs[1]),1,(220,32,220))
+##                
+##                
+##                self.draw_rectlist.append(self.screen.blit(text1, (e,f)))
+##                self.draw_rectlist.append(self.screen.blit(text2, (g,h)))
+##                ScreenUpdate(self)
+##                disp_ls.append(disp_pair) #extend?
+##--------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+#################################
+
+
+
+
+#old dual taskR
+## old dual task
+##                aa=random.randint(1,10)#for dual taskquestion
+##                        
+##                
+##                if DUALFLAG:
+##                    
+##                    dualtext="NUMERICALY, which number was bigger in magnitude,\n" + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n'q'= right, 'p'= left"
+##                    my_rectt = pygame.Rect((40, 40, 600, 600))
+##                    text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
+##                    #I don't like this key associtation. maybe use 8 and 2?
+##                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
+##                    ScreenUpdate(self)
+##                    #time.sleep(1)
+##                    nback = disp_ls[M]
+##
+##                    
+##                    if nback[0][0]>nback[1][0]:#selectors, shmlectors.
+##                        correctresponse = 'L'
+##                    else:
+##                        correctresponse = 'R'
+##                    
+##                    if aa>5:
+##                        NEXT_DUALFLAG=True
+##                    else:
+##                        NEXT_DUALFLAG=False
+##                        
+##                        #record response
+##                    #self.state_time += dt
+##                else:
+##                    dualtext="PHYSICALY, which number was larger,\n " + ' '+ str(self.N)+' ' + " presentation(s) ago?"
+##                    my_rectt = pygame.Rect((40, 40, 600, 600))
+##                    text = render_textrect(dualtext, font, my_rectt, (227,146,84), (0,0,0))
+##                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
+##                    ScreenUpdate(self)
+##                   # time.sleep(.5)
+##                    
+##                    if nback[0][1]>nback[1][1]:
+##                        correctresponse = 'L'
+##                    else:
+##                        correctresponse = 'R'
+##                    if aa>5:
+##                        NEXT_DUALFLAG = True
+##                    else:
+##                        NEXT_DUALFLAG = False
+##                    
 
 
