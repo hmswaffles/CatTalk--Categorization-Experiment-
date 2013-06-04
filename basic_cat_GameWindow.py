@@ -63,7 +63,7 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
                     elif (event.key == K_RETURN):
                         fname = (DATA_DIR+'/'+str(subject_fname).replace("['","").replace("']","")+".txt")
                         if os.path.isfile(fname):
-                            text = font.render("Subject File Already Exists", 1, (255, 0, 0))
+                            text = font.render("Subject File Already Exists", 1, (0, 11, 127))
                             self.draw_rectlist.append(self.screen.blit(text, (150,300)))
                             self.draw_rectlist.append(self.screen.blit(subtext,(350,100)))
                             ScreenUpdate(self)
@@ -128,7 +128,7 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
             my_rect = pygame.Rect((40, 40, 600, 600))
             text = render_textrect(INSTRUCTIONTEXT+str(N), font, my_rect, (255,148,0), (0,0,0))
             #text = font.render("INSTRUCTIONS", 1, (255,255,100))
-            self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
+            self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-SCREEN_CENTER[0]/2,SCREEN_CENTER[1]-SCREEN_CENTER[0]/2)))
             ScreenUpdate(self)
             time.sleep(1)
             for event in pygame.event.get():
@@ -154,7 +154,7 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
     trialset_fname = (str(trialset_fname).replace("['","").replace("']","")+".tgt").lower()
     self.trialset_fname = trialset_fname
     #N=subject_fname[-1]
-    self.N = N
+    self.N = int(N)
     
 
 def WriteGameData(self,DATA_DIR,history,history_keys,):

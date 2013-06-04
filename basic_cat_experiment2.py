@@ -18,7 +18,7 @@ from numpy import *
 import cgkit.flockofbirds as FOB
 import random
 
-#6/2 ToDo: change all flags and what not to reflect dual training, add a few variables, test.
+
 
 
 
@@ -85,6 +85,9 @@ class Game:
         self.score_color = SCORE_COLOR
         self.score_position = (SCREEN_CENTER[0]-SCREEN_CENTER[0]/1.5,SCREEN_CENTER[1])
         self.exit = False
+        self.Dual_Counter = 0
+        self.DUAL_COUNT = 0
+        self.image =[]
         
         #Timing
         clock = pygame.time.Clock()
@@ -104,7 +107,7 @@ class Game:
         self.DTrt = 0
         
         #Trial Flags
-        TRIAL_START = True       #Flag 1
+        TRIAL_START = False       #Flag 1
         STIMULUS = False         #Flag 2
         FEEDBACK = False         #Flag 3
         ITI = False              #Flag 4
@@ -112,6 +115,11 @@ class Game:
         INVALID_KEY = False      #Flag 6    
         DUAL_TASK_P = False        #Flag 7 P-present
         DUAL_TASK_R =False       #Flag 8 R-record
+        DUAL_TRAINING_T= False
+        DUAL_TRAINING_1 = False
+        DUAL_TRAINING_R = False
+        DUAL_TRAINING_N = False
+        DUAL_TRAINING_END = False
 
 
         #Initializing auditory feedback- loading sounds
@@ -122,28 +130,40 @@ class Game:
         invalidsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\Soundeffects\FIREBIRDHIT.wav")
         invalidsound.set_volume(.6)
         slowsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\Soundeffects\SLOWWW.wav")
-        slowsound.set_volume(.3)
+        slowsound.set_volume(.2)
 
-        #Loading dual task images
-        0DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\0.png")
-        1DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\1.png")
-        2DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\2.png")
-        3DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\3.png")
-        4DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\4.png")
-        5DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\5.png")
-        6DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\6.png")
-        7DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\7.png")
-        8DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\8.png")
-        9DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\9.png")
-        10DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\10.png")
-        11DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\11.png")
-        12DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\12.png")
-        13DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\13.png")
-        14DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\14.png")
-        15DT= pygame.image.load("C:\Users\Evan\Desktop\experiment_code\Dual\15.png")
-        DUALRECT = 0DT.getrect()
-        dual_ls_image = [0DT,1DT,2DT,3DT,4DT,5DT,6DT,7DT,8DT,9DT,10DT,11DT,12DT,13DT,14DT,15DT]
-        
+        #Loading dual task imagesprint 'loading images'
+        DT0= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\0.png")
+        DT1= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\1.png")
+        DT2= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\2.png")
+        DT3= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\3.png")
+        DT4= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\4.png")
+        DT5= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\5.png")
+        DT6= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\6.png")
+        DT7= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\Dual\\7.png")
+       
+        DT8= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\8.png")
+        DT9= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\9.png")
+        DT10= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\10.png")
+        DT11= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\11.png")
+        DT12= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\12.png")
+        DT13= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\13.png")
+        DT14= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\14.png")
+        DT15= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\15.png")
+        DUALRECT = DT0.get_rect()
+        dual_ls_image = [DT0,DT1,DT2,DT3,DT4,DT5,DT6,DT7,DT8,DT9,DT10,DT11,DT12,DT13,DT14,DT15]
+      
+
+        #dual text- renders here as to avoid flickering whilst in-loop
+            #dual task
+        Adual="Was that image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
+        Amy_rectt = pygame.Rect(((SCREEN_CENTER[0]-250,SCREEN_CENTER[1]-250),(SCREEN_CENTER[0]+250,SCREEN_CENTER[1]+250)))
+        ADualtext = render_textrect(Adual, font, Amy_rectt, (240,80,10), (0,0,0))
+
+            #dual training:
+        dualtext="DUAL TASK TRAINING. \n this will run" +' '+ str(training_total_runs/2) +' ' + """times, after which you will start the experiment proper. Please remember the grid """ +' '+ str(self.N)+' ' +  "presentation(s) back from where you are"
+        my_rectt = pygame.Rect((40, 40, 600, 600))
+        text_t = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))        
         #Game Pertinent Functions----------------------------------------------------------------------
         def CurrentEvent(self):
             if TRIAL_START:
@@ -162,6 +182,17 @@ class Game:
                 self.flag = 7
             if DUAL_TASK_R:
                 self.flag = 8
+            if DUAL_TRAINING_T:
+                self.flag =9
+            if DUAL_TRAINING_1:
+                self.flag =10
+            if DUAL_TRAINING_N:
+                self.flag = 11
+            if DUAL_TRAINING_R:
+                self.flag = 12
+            if DUAL_TRAINING_END:
+                self.flag = 13
+                
         
                 
 
@@ -207,6 +238,7 @@ class Game:
         x = 100
         y = 100
         trial_first_loop = True
+        training = True
 
         #This is the main trial loop---------------------------------------------------------------------------
         while trialnum < self.trialset_len:
@@ -235,12 +267,59 @@ class Game:
                         sys.exit()   #Calls interrupt to end game
 
             #Get current trialset variables on first run through the trial loop only
-            if trial_first_loop:
+         ###               
+            if trial_first_loop and training: #if absolute first time, throws to training
                 self.cat = CAT[trialnum]
                 self.length = LENGTH[trialnum]
                 self.theta = THETA[trialnum]
                 self.between_blocks = BETWEEN_BLOCKS[trialnum]
+                #DUAL_COUNTER=0
+                #Dual_count=0
+                TRIAL_START = False
+                STIMULUS = False
+                FEEDBACK = False
+                ITI = False
+                TOO_SLOW = False
+                INVALID_KEY = False
+                DUAL_TASK_P = False
+                DUAL_TASK_R =False
+                DUAL_TRAINING_T= True
+                DUAL_TRAINING_1 = False
+                DUAL_TRAINING_R = False
+                DUAL_TRAINING_N = False
+                DUAL_TRAINING_END = False
                 trial_first_loop = False
+                training = False
+                self.state_time = 0
+                
+            if trial_first_loop and not training:
+                self.cat = CAT[trialnum]
+                self.length = LENGTH[trialnum]
+                self.theta = THETA[trialnum]
+                self.between_blocks = BETWEEN_BLOCKS[trialnum]
+                #DUAL_COUNTER=0
+                #Dual_count=0
+
+
+                
+                TRIAL_START = True
+                STIMULUS = False
+                FEEDBACK = False
+                ITI = False
+                TOO_SLOW = False
+                INVALID_KEY = False
+                DUAL_TASK_P = False
+                DUAL_TASK_R =False
+                DUAL_TRAINING_T= False
+                DUAL_TRAINING_1 = False
+                DUAL_TRAINING_R = False
+                DUAL_TRAINING_N = False
+                DUAL_TRAINING_END = False
+                trial_first_loop = False
+                training = False
+                self.state_time = 0
+
+
                     
             if TRIAL_START:
                 #Update Event Codes and timing
@@ -251,8 +330,9 @@ class Game:
                 self.screen.fill(BACKGROUND_COLOR)
                 #font = pygame.font.Font(None, 72) font is georgia, already above
                 text = font.render("+", 1, self.score_color)
-                self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
-                
+               #### self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
+                self.screen.blit(text, (SCREEN_CENTER[0]-15,SCREEN_CENTER[1]-15))
+                pygame.display.flip()
                 if self.state_time > 1.0:
                     TRIAL_START = False
                     STIMULUS = True
@@ -262,10 +342,19 @@ class Game:
                     INVALID_KEY = False
                     DUAL_TASK_P = False
                     DUAL_TASK_R =False
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_N = False
+                    DUAL_TRAINING_END = False
                     self.state_time = 0
+
+
                 
             if STIMULUS:
                 #Update Event Codes and timing
+                
+                
                 self.state_time += dt
                 CurrentEvent(self)
                 
@@ -286,8 +375,11 @@ class Game:
                # Y2 = -Y1
                 self.p1 = (SCREEN_CENTER[0]+X1,SCREEN_CENTER[1]+Y1)
                 self.p2 = (SCREEN_CENTER[0]-X1,SCREEN_CENTER[1]-Y1)
-                self.draw_rectlist.append(pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2))
 
+                self.screen.fill(BACKGROUND_COLOR)
+                #self.draw_rectlist.append(pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2))
+                pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2)
+                pygame.display.flip()
 
 
                 
@@ -308,18 +400,42 @@ class Game:
                         else:
                             self.resp = -1
                             self.step_1_rt = self.state_time
+                            
+                          
+
+
+                            TRIAL_START = False
+                            STIMULUS = False
+                            FEEDBACK = False
+                            ITI = False
+                            TOO_SLOW = False
                             INVALID_KEY = True
+                            invalidsoundflag = True
+                            DUAL_TASK_P= False
+                            DUAL_TASK_R=False
+                            DUAL_TRAINING_T= False
+                            DUAL_TRAINING_1 = False
+                            DUAL_TRAINING_R = False
+                            DUAL_TRAINING_N = False
+                            DUAL_TRAINING_END = False
                             self.state_time = 0
                             break
                     
                         TRIAL_START = False
                         STIMULUS = False
                         FEEDBACK = True
+                        correctsoundflag=True #insures that the sound is only initalized once.
+                        incorrectsoundflag=True ### this choice is made below, but because of the while loop, both have to be set here
                         ITI = False
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P= False
                         DUAL_TASK_R=False
+                        DUAL_TRAINING_T= False
+                        DUAL_TRAINING_1 = False
+                        DUAL_TRAINING_R = False
+                        DUAL_TRAINING_N = False
+                        DUAL_TRAINING_END = False
                         self.state_time = 0
                 
                 #Enforce response deadline
@@ -329,9 +445,15 @@ class Game:
                     FEEDBACK = False
                     ITI = False
                     TOO_SLOW = True
+                    slowsoundflag = True
                     INVALID_KEY = False
                     DUAL_TASK_P = False
                     DUAL_TASK_R = False
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_N = False
+                    DUAL_TRAINING_END = False
                     self.resp = -1
                     self.rt = -1
                     self.state_time = 0
@@ -347,14 +469,22 @@ class Game:
                 
                 if self.cat == self.resp:
                     text = font.render("Correct", 1, self.score_color)
-                    self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
-                    correctsound.set_volume(.3)
-                    correctsound.play()
+                    #self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-50,SCREEN_CENTER[1]))
+                    self.screen.blit(text, (SCREEN_CENTER[0]-80,SCREEN_CENTER[1]-30))
+                    pygame.display.flip()
+                    if correctsoundflag:
+                        correctsound.set_volume(.3)
+                        correctsound.play()
+                    correctsoundflag=False
                 else:
                     text = font.render("Incorrect", 1, self.score_color)
-                    self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
-                    incorrectsound.set_volume(.3)
-                    incorrectsound.play()
+                    #self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
+                    self.screen.blit(text, (SCREEN_CENTER[0]-80,SCREEN_CENTER[1]-30))
+                    pygame.display.flip()
+                    if incorrectsoundflag:
+                        incorrectsound.set_volume(.3)
+                        incorrectsound.play()
+                    incorrectsoundflag=False
         
                 if self.state_time > 1.75:
                     pygame.mixer.stop()
@@ -366,7 +496,12 @@ class Game:
                     INVALID_KEY = False
                     DUAL_TASK_P= True
                     DUAL_TASK_R = False
-                    DUALFLAG = True
+                    #DUALFLAG = True
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_N = False
+                    DUAL_TRAINING_END = False
                     self.state_time = 0
             
             if TOO_SLOW:
@@ -377,9 +512,12 @@ class Game:
                 self.screen.fill(BACKGROUND_COLOR)
                 #font = pygame.font.Font(None, 72)font isinitialized above
                 text = font.render("TOO SLOW!", 1, self.score_color)
-                self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
-                slowsound.play()
-                if self.state_time > 1.5:
+                self.screen.blit(text, (SCREEN_CENTER[0]-50,SCREEN_CENTER[1]))
+                pygame.display.flip()
+                if slowsoundflag:
+                    slowsound.play()
+                slowsoundflag=False
+                if self.state_time > 1.9:
                     
                     #Update the game history right now
                     self.total_score += self.current_score
@@ -391,7 +529,7 @@ class Game:
                     trialnum += 1
                     self.trial_num = trialnum
                     num_samples = 0
-                    trial_first_loop = True
+                    trial_first_loop = False
                     
                     self.cat = 0
                     self.x = 0
@@ -399,28 +537,40 @@ class Game:
                     self.resp = 0
 
                     pygame.mixer.stop()
-                    TRIAL_START = True
+                    TRIAL_START = False
                     STIMULUS = False
                     FEEDBACK = False
                     ITI = False
                     TOO_SLOW = False
                     INVALID_KEY = False
-                    DUAL_TASK_P = False
+                    DUAL_TASK_P = True
                     DUAL_TASK_R=False
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_N = False
+                    DUAL_TRAINING_END = False
+                    
                     self.state_time = 0
 
             if INVALID_KEY:
                 #Update Event Codes and timing
                 self.state_time += dt
-                CurrentEvent(self)
-                
+                #CurrentEvent(self)
                 self.screen.fill(BACKGROUND_COLOR)
-                font = pygame.font.Font(None, 72)
-                text = font.render("INVALID KEY!", 1, self.score_color)
-                self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
-                invalidsound.set_volume(.3)
-                invalidsound.play()
+               
+                #font = pygame.font.Font(None, 72)
+                text = font.render("INVALID KEY", 1, self.score_color)
+                #self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
+                self.screen.blit(text, (SCREEN_CENTER[0]-50,SCREEN_CENTER[1]))
+                pygame.display.flip()
                 
+              
+               
+                if invalidsoundflag:
+                    invalidsound.set_volume(.3)
+                    invalidsound.play()
+                    invalidsoundflag = False
                 if self.state_time > 1.5:
                     
                     #Update the game history right now
@@ -433,7 +583,7 @@ class Game:
                     trialnum += 1
                     self.trial_num = trialnum
                     num_samples = 0
-                    trial_first_loop = True
+                    trial_first_loop = False
                     
                     self.cat = 0
                     self.length = 0
@@ -441,14 +591,20 @@ class Game:
                     self.resp = 0
 
                     pygame.mixer.stop()
-                    TRIAL_START = True
+                    TRIAL_START = False
                     STIMULUS = False
                     FEEDBACK = False
                     ITI = False
                     TOO_SLOW = False
                     INVALID_KEY = False
-                    DUAL_TASK_P= False
+                    DUAL_TASK_P= True
                     DUAL_TASK_R = False
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_N = False
+                    DUAL_TRAINING_END = False
+                    invalidsoundflag = False
                     self.state_time = 0
 
 
@@ -459,57 +615,67 @@ class Game:
                 #potentially need to reset self.statetime to get a raw RT for dual task?
                 #present in the n=1 back and the n=2 back, with a 10% possibility of repition
                 #use spacebar
+                print self.DUAL_COUNT, self.Dual_Counter, 'n',self.N
                 self.state_time += dt
                 CurrentEvent(self)
+                
                 self.screen.fill(BACKGROUND_COLOR)
-                image=dual_ls_image[Dualorder[DUALCOUNTER]]       
-                self.screen.blit(image, DUALRECT)
-                time.sleep(DUAL_DISP_TIME)
-               # self.state_time= 0
-
+                image=dual_ls_image[Dualorder[self.Dual_Counter]]       
+                self.screen.blit(dual_ls_image[Dualorder[self.Dual_Counter]], (SCREEN_CENTER[0]-150,SCREEN_CENTER[1]-150))
+                pygame.display.flip()
+              
+                if self.state_time > DUAL_DISP_TIME:        
+                    if self.DUAL_COUNT<self.N:
+                        #just display, if before the right amount of n
+                        self.Dual_Counter += 1
+                        self.DUAL_COUNT += 1
+                        self.screen.fill(BACKGROUND_COLOR)
+                        TRIAL_START = False
+                        STIMULUS = False
+                        FEEDBACK = False
+                        ITI = True
+                        TOO_SLOW = False
+                        INVALID_KEY = False
+                        DUAL_TASK_P = False
+                        DUAL_TASK_R = False
+                        DUAL_TRAINING_T= False
+                        DUAL_TRAINING_1 = False
+                        DUAL_TRAINING_R = False
+                        DUAL_TRAINING_N = False
+                        DUAL_TRAINING_END = False
+                        self.state_time = 0
+                    
+                      
+                    else:#record response before moving on
+                        print 'jjjjjjjjjjjjjjjj'
+                        self.screen.fill(BACKGROUND_COLOR)
+                        TRIAL_START = False
+                        STIMULUS = False
+                        FEEDBACK = False
+                        ITI = False
+                        TOO_SLOW = False
+                        INVALID_KEY = False
+                        DUAL_TASK_P = False
+                       
+                        DUAL_TRAINING_T= False
+                        DUAL_TRAINING_1 = False
+                        DUAL_TRAINING_R = False
+                        DUAL_TRAINING_N = False
+                        DUAL_TRAINING_END = False
+                        #print self.N
+                        #M = len(disp_ls) - int(self.N)
+                        
+                        if Dualorder[DUALCOUNTER] == Dualorder[DUALCOUNTER-self.N]:
+                            correctresponse= 'space'
+                        else:
+                            correctresponse= 'return'
+                        DUAL_TASK_R = True
+                        self.state_time = 0
+                        #self.Dual_Counter += 1 this is incremented under DUAL_TASK_R. Don't ask me why I did that, I have no idea.
+                        self.DUAL_COUNT += 1
+                
 
                 
-                if trialnum<int(self.N):
-                    #just display, if before the right amount of n
-                    DUALCOUNTER += 1
-                    self.screen.fill(BACKGROUND_COLOR)
-                    TRIAL_START = False
-                    STIMULUS = False
-                    FEEDBACK = False
-                    ITI = True
-                    TOO_SLOW = False
-                    INVALID_KEY = False
-                    DUAL_TASK_P = False
-                    DUAL_TASK_R = False
-                    self.state_time = 0
-                    #need to reset numbs and font size so they don't keep shrinking
-                  
-                else:
-                   
-                    self.screen.fill(BACKGROUND_COLOR)
-                    TRIAL_START = False
-                    STIMULUS = False
-                    FEEDBACK = False
-                    ITI = False
-                    TOO_SLOW = False
-                    INVALID_KEY = False
-                    DUAL_TASK_P = False
-                    #print self.N
-                    #M = len(disp_ls) - int(self.N)
-                    self.state_time = 0
-                    if Dualorder[DUALCOUNTER] == Duralorder[DUALCOUNTER-self.N]:
-                        correctresponse= 'space'
-                    else:
-                        correctresponse= 'return'
-                    DUAL_TASK_R = True
-
-#dual task p paste here                                          
-                
-
-                
-                
-
-
 
 
                     
@@ -520,64 +686,66 @@ class Game:
                 CurrentEvent(self)
                 #instruct and record
                 #display instruction
-#oold dual task, paste here from bottom
-
-                dualtext="Was that grid image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
-                my_rectt = pygame.Rect((40, 40, 600, 600))
-                    text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
-                    #I don't like this key associtation. maybe use 8 and 2?
-                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
-                    ScreenUpdate(self)
-                
+                #oold dual task, paste here from bottom
+                self.screen.fill(BACKGROUND_COLOR)  
+                self.screen.blit(ADualtext, (SCREEN_CENTER[0]-250,SCREEN_CENTER[1]-250))
+                print 'dualRR'
+                pygame.display.flip()
+                time.sleep(1)#################################################
                 for event in pygame.event.get():
                     if event.type == KEYDOWN:
                         
-                        if event_1.dict['key'] == K_RETURN:
+                        if event.dict['key'] == K_RETURN:
                             if 'return'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALCOUNTER += 1
+                                self.Dual_Counter += 1
                                 
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALCOUNTER += 1
+                                self.Dual_Counter += 1
                         elif event.dict['key'] == K_SPACE:
                             if 'space'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALCOUNTER += 1
+                                self.Dual_Counter += 1
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
                                 ITI=True
                                 DUAL_TASK_R=False
-                                DUALCOUNTER += 1
+                                self.Dual_Counter += 1
                         elif event.dict['key'] == K_ESCAPE:
                             pygame.display.quit()   #Closes the display
                             sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
                             break
                           
-                            
-                    else:
-
-                        
-                        if self.state_time > 3.0:
-                            TRIAL_START = False
-                            STIMULUS = False
-                            FEEDBACK = False
-                            ITI = True
-                            TOO_SLOW = False
-                            INVALID_KEY = False
-                            DUAL_TASK_P = False
-                            DUAL_TASK_R = False
-                            self.DTcorrect=-1
+        
+                    
+                if self.state_time > 3.0:
+                    TRIAL_START = False
+                    STIMULUS = False
+                    FEEDBACK = False
+                    ITI = True
+                    TOO_SLOW = False
+                    INVALID_KEY = False
+                    DUAL_TASK_P = False
+                    DUAL_TASK_R = False
+                    DUAL_TRAINING_T= False
+                    DUAL_TRAINING_1 = False
+                    DUAL_TRAINING_N= False
+                    DUAL_TRAINING_R = False
+                    DUAL_TRAINING_END = False
+                    self.DTcorrect = -1
+                    self.DUAL_COUNT += 1
+                    self.Dual_Counter +=1
 ##                        else:
 ##                            TRIAL_START = False
 ##                            STIMULUS = False
@@ -595,91 +763,283 @@ class Game:
                 
                
 
-            if dual_training:
+            if DUAL_TRAINING_T:
                 
+                self.state_time += dt
+                CurrentEvent(self)
                 #display "welcome, fellow potentially nondescript RPP person. hereabouts begins your training on the distractor task. 
                 #this will run five times, before a splash screen, after which you will start the experiment proper"
                 #you are going to have to remember sequences of randomly generated white-on-black grids, n presentations ago
                 #sleep or press enter and escape
-                dualtext="""DUAL TASK TRAINING. \n this will run" +str(training_total_runs)+ " after which you will start the experiment proper
-                please remember the grid " + ' ' + str(self.N)+ ' '+ "presentation(s) back from where you are"""
-                my_rectt = pygame.Rect((40, 40, 600, 600))
-                text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
-                
-                #I don't like this key associtation. maybe use 8 and 2?
-                
-                self.draw_rectlist.append(self.screen.blit(text, (50,100)))
-                ScreenUpdate(self)
-                time.sleep(3)
-                
-                for jj in range(training_total_runs):
-                    if jj < self.N:
-                        DUALCOUNTER +=1
-                        #display 'pause?'
-                        self.state_time += dt
-                        CurrentEvent(self)
-                        self.screen.fill(BACKGROUND_COLOR)
-                        image=dual_ls_image[Dualorder[DUALCOUNTER]]       
-                        self.screen.blit(image, DUALRECT)
-                        time.sleep(DUAL_DISP_TIME)
-                        jj +=1               
-                    if Dualorder[DUALCOUNTER] == Duralorder[DUALCOUNTER-self.N]:
-                        correctresponse= 'space'
-                    else:
-                        correctresponse= 'return'               
 
+
+                #intructions:
+                
+                self.draw_rectlist.append(self.screen.blit(text_t, (SCREEN_CENTER[0]-350,SCREEN_CENTER[1]-350)))
+                #ScreenUpdate(self)
+                pygame.display.update()
+                time.sleep(.5)
+               
+                if self.state_time >1:
+                
+                    for event in pygame.event.get():
+                        #print event
+                        if event.type == KEYDOWN:
+                            self.screen.fill(BACKGROUND_COLOR)
+                            if event.dict['key'] == K_RETURN:
+                                #where to go next-> training_1
+                                TRIAL_START = False
+                                STIMULUS = False
+                                FEEDBACK = False
+                                ITI = False
+                                TOO_SLOW = False
+                                INVALID_KEY = False
+                                DUAL_TASK_P = False
+                                DUAL_TASK_R = False
+                                DUAL_TRAINING_T = False
+                                DUAL_TRAINING_1= True
+                                DUAL_TRAINING_N = False
+                                DUAL_TRAINING_R= False
+                                DUAL_TRAINING_END = False
+                                #print 'only seeing this once ', self.DUAL_COUNT, self.Dual_Counter
+                                #DUAL_COUNT is the nth training run, self.Dual_counter controls which grid to show.
+                                self.state_time = 0
+                            
+                
+            if DUAL_TRAINING_1: #first n times through Dual Training
+                    self.state_time += dt
+                    
+                    #print 'top oftraining1: ', self.DUAL_COUNT, self.Dual_Counter, self.N
+                    #print dual_ls_image
                     self.state_time += dt
                     CurrentEvent(self)
-                    #instruct and record
-                    #display instruction
-                    #oold dual task, paste here from bottom
-
-                    dualtext="Was that grid image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
-                    my_rectt = pygame.Rect((40, 40, 600, 600))
-                    text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
-                    self.draw_rectlist.append(self.screen.blit(text, (50,100)))
-                    ScreenUpdate(self)
-                    
-                    for event in pygame.event.get():
-                        if event.type == KEYDOWN:
+                    #print dual_ls_image[Dualorder[self.Dual_Counter]]
+                    #blits image      
+                    self.screen.blit(dual_ls_image[Dualorder[self.Dual_Counter]], (SCREEN_CENTER[0]-150,SCREEN_CENTER[1]-150))
+                    pygame.display.update()
+                    time.sleep(.5)
+                    if self.state_time > DUAL_DISP_TIME+.5:
+                        
+                        self.Dual_Counter +=1
+                        self.DUAL_COUNT +=1
+                        TRIAL_START = False
+                        STIMULUS = False
+                        FEEDBACK = False
+                        ITI = False
+                        TOO_SLOW = False
+                        INVALID_KEY = False
+                        DUAL_TASK_P = False
+                        DUAL_TASK_R = False
+                        DUAL_TRAINING_T = False
+                        DUAL_TRAINING_END = False
+                        DUAL_TRAINING_N = False
+                        
+                        self.state_time=0
+                        print 'mid training_1: ', self.DUAL_COUNT,self.N
+                        if self.DUAL_COUNT < self.N+1:
                             
-                            if event_1.dict['key'] == K_RETURN:
-                                if 'return'==correctresponse:
-                                    self.DTcorrect=1
-                                    self.DTrt = self.state_time
-                                    ITI=True
-                                    DUAL_TASK_R=False
-                                    DUALCOUNTER += 1
-                                    jj +=1
-                                    
-                                else:
-                                    self.DTcorrect=0
-                                    self.DTrt = self.state_time
-                                    ITI=True
-                                    DUAL_TASK_R=False
-                                    DUALCOUNTER += 1
-                                    jj +=1
-                            elif event.dict['key'] == K_SPACE:
-                                if 'space'==correctresponse:
-                                    self.DTcorrect=1
-                                    self.DTrt = self.state_time
-                                    ITI=True
-                                    DUAL_TASK_R=False
-                                    DUALCOUNTER += 1
-                                    jj +=1
-                                else:
-                                    self.DTcorrect=0
-                                    self.DTrt = self.state_time
-                                    ITI=True
-                                    DUAL_TASK_R=False
-                                    DUALCOUNTER += 1
-                                    jj +=1
-                            elif event.dict['key'] == K_ESCAPE:
-                                pygame.display.quit()   #Closes the display
-                                sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
-                                break
-                              
+                            DUAL_TRAINING_N = False
+                            DUAL_TRAINING_1 = True
+                            
+                            
+                        else:
+                            DUAL_TRAINING_N = False
+                            DUAL_TRAINING_1 =False
+                            DUAL_TRAINING_R = True
+                            
+                            
+
+
+
+                
+              
+                   
+            if DUAL_TRAINING_N:
+                    
+                   # print 'top of training_N'
+                    self.state_time += dt
+                    CurrentEvent(self)
+                   # self.screen.fill(BACKGROUND_COLOR)
+                   # ScreenUpdate(self)
+                    #print Dualorder[self.Dual_Counter]
+                 
+                    #self.screen.blit(dual_ls_image[Dualorder[self.Dual_Counter]] , DUALRECT)
+                    self.screen.blit(dual_ls_image[Dualorder[self.Dual_Counter]], (SCREEN_CENTER[0]-150,SCREEN_CENTER[1]-150))
+                    pygame.display.update()
+                    time.sleep(.5)
+                    if self.state_time > DUAL_DISP_TIME+.5:
+                        # self.screen.fill(BACKGROUND_COLOR)
+                        #ScreenUpdate(self)
+                        
+                        
+                        TRIAL_START = False
+                        STIMULUS = False
+                        FEEDBACK = False
+                        ITI = False
+                        TOO_SLOW = False
+                        INVALID_KEY = False
+                        DUAL_TASK_P = False
+                        DUAL_TASK_R = False
+                        DUAL_TRAINING_T= False
+                        DUAL_TRAINING_1 = False
+                        DUAL_TRAINING_R = True
+                        DUAL_TRAINING_END =False
+                        DUAL_TRAINING_N = False
+
+                        self.Dual_Counter +=1
+                        self.DUAL_COUNT +=1
+                        self.state_time = 0
+                        
+                        #self.state_time=0 the instructions should cancel out in in-person data analysis...
+                    
+                             
+
+
+
+
+                    
+            if DUAL_TRAINING_R:
+                self.state_time += dt
+                CurrentEvent(self)
+                self.screen.fill(BACKGROUND_COLOR) 
+                dualtext="Was that grid image the same as the one "  + str(self.N) + " presentation(s) ago? \n Spacebar= Yes, Enter =No"
+                my_rectt = pygame.Rect((40, 40, 500, 500))
+                text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
+                self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-250,SCREEN_CENTER[1]-250)))
+                pygame.display.update()
+                
+                if Dualorder[self.Dual_Counter] == Dualorder[self.Dual_Counter-self.N]:
+                    correctresponse= 'space'
+                else:
+                    correctresponse= 'return'               
+                print 'TRAINING_R: ', self.DUAL_COUNT, training_total_runs,'n',self.N
+                #self.DUAL_COUNT >= training_total_runs
+                #time.sleep(.1)
+                for event in pygame.event.get():
+                    if event.type == KEYDOWN:
+                        self.state_time=0
+                        self.Dual_Counter += 1
+                        self.DUAL_COUNT +=1
+                        if event.dict['key'] == K_RETURN:
+                            if 'return'==correctresponse:
+                                self.DTcorrect=1
+                            else:
+                                self.DTcorrect=0
+                            self.DTrt = self.state_time                        
+                            self.screen.fill(BACKGROUND_COLOR)
+                            pygame.display.update()
+                            
+                            if self.DUAL_COUNT > training_total_runs:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_N = False
+                                DUAL_TRAINING_T = False
+                                DUAL_TRAINING_1 = False
+                                DUAL_TRAINING_END = True
+                                #record,
+                                self.state_time=0
+                            elif self.DUAL_COUNT < self.N+1:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_1 = True
+                                self.state_time = 0
+                            else:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_N = True
+                                self.state_time=0
                                 
+                        elif event.dict['key'] == K_SPACE:
+                            if 'space'==correctresponse:
+                                self.DTcorrect=1
+                            else:
+                                self.DTcorrect=0                                
+                            self.DTrt = self.state_time                           
+                            self.screen.fill(BACKGROUND_COLOR)
+                            pygame.display.update()
+
+                          
+                            if self.DUAL_COUNT > training_total_runs:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_N = False
+                                DUAL_TRAINING_T = False
+                                DUAL_TRAINING_1 = False
+                                DUAL_TRAINING_END = True
+                            elif self.DUAL_COUNT < self.N+1:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_1 = True
+                                self.state_time=0
+                                print 'gutbye;'
+                            else:
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_N = True
+                                self.state_time=0
+                                print 'challo'
+
+                            
+                                
+                        elif event.dict['key'] == K_ESCAPE:
+                            pygame.display.quit()   #Closes the display
+                            sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
+                            break
+
+                            
+                    if self.state_time > 2.5:
+                        print 'meep'
+                        TRIAL_START = False
+                        STIMULUS = False
+                        FEEDBACK = False
+                        ITI = False
+                        TOO_SLOW = False
+                        INVALID_KEY = False
+                        DUAL_TASK_P = False
+                        DUAL_TASK_R = False
+                        DUAL_TRAINING_T= False
+                        self.state_time=0
+
+                        if self.DUAL_COUNT > training_total_runs:
+                            DUAL_TRAINING_R = False
+                            DUAL_TRAINING_END = True
+                        elif self.DUAL_COUNT < self.N+1:
+                            DUAL_TRAINING_R = False
+                            DUAL_TRAINING_1 = True
+                            self.state_time=0
+                        else:
+                            DUAL_TRAINING_R = False
+                            DUAL_TRAINING_N = True
+                            
+                    
+                   
+                        
+
+
+                        
+                              
+            if DUAL_TRAINING_END:
+                #print 'end'
+                textt = "the training is now over, press RETURN to start the experiment. Please categorize the lines with either 'k' or 'd'"
+                rect = pygame.Rect((100,100,400,400))
+                etext = render_textrect(textt,font,rect,(255,255,255), (0,0,0))
+                self.draw_rectlist.append(self.screen.blit(etext, (SCREEN_CENTER[0]-150,SCREEN_CENTER[1]-150)))
+                pygame.display.update()
+                #time.sleep(.1)
+                for event in pygame.event.get():
+                    if event.type == KEYDOWN:
+                        if event.dict['key'] == K_RETURN:
+                            FEEDBACK = False
+                            ITI = False
+                            TOO_SLOW = False
+                            INVALID_KEY = False
+                            DUAL_TASK_P = False
+                            DUAL_TASK_R = False
+                            DUAL_TRAINING_T = False
+                            DUAL_TRAINING_1= False
+                            DUAL_TRAINING_R= False
+                            DUAL_TRAINING_N = False
+                            DUAL_TRAINING_END = False
+                            TRIAL_START = False
+                            trial_first_loop = True
+                            training = False
+                            self.DUAL_COUNT = 0
+                            self.state_time=0
+                     
                       
                 
 
@@ -710,6 +1070,7 @@ class Game:
                                 self.trial_num = trialnum
                                 num_samples = 0
                                 trial_first_loop = True
+                                training = False
                                 
                                 self.cat = 0
                                 self.length = 0
@@ -718,7 +1079,8 @@ class Game:
                                 self.DTcorrect=0
                                 self.DTrt = 0
                                 
-                                TRIAL_START = True
+                                #TRIAL_START = True
+                                TRIAL_START = False
                                 STIMULUS = False
                                 FEEDBACK = False
                                 ITI = False
@@ -726,6 +1088,12 @@ class Game:
                                 INVALID_KEY = False
                                 DUAL_TASK_R =False
                                 DUAL_TASK_P = False
+                                DUAL_TRAINING_T= False
+                                DUAL_TRAINING_1 = False
+                                DUAL_TRAINING_R = False
+                                DUAL_TRAINING_N = False
+                                DUAL_TRAINING_END = False
+                        
                                 self.state_time = 0
 
                 elif self.between_blocks == 0:
@@ -742,6 +1110,7 @@ class Game:
                         self.trial_num = trialnum
                         num_samples = 0
                         trial_first_loop = True
+                        training = False
                         
                         self.cat = 0
                         self.length = 0
@@ -750,7 +1119,7 @@ class Game:
                         self.DTcorrect = 0
                         self.DTrt = 0
                         
-                        TRIAL_START = True
+                        TRIAL_START = False
                         STIMULUS = False
                         FEEDBACK = False
                         ITI = False
@@ -758,12 +1127,22 @@ class Game:
                         INVALID_KEY = False
                         DUAL_TASK_P = False
                         DUAL_TASK_R = False
+                        DUAL_TRAINING_T= False
+                        DUAL_TRAINING_1 = False
+                        DUAL_TRAINING_R = False
+                        DUAL_TRAINING_N = False
+                        DUAL_TRAINING_END = False
                         self.state_time = 0
 
             #Update screen
             ScreenUpdate(self)
             
 if __name__ == '__main__': Game()
+
+
+
+
+
 #old dual task P
 ##----------------------------------------------------------------------------------------------------------                
 ##                

@@ -49,7 +49,7 @@ SCORE_COLOR = (255,255,255)
 TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\TargetFiles'
 DATA_DIR = 'C:\Users\Evan\Desktop\experiment_code\Data'
 STIMULI_DIR = 'C:\Users\Evan\Desktop\experiment_code\Stimuli'
-DUAL_DIR = 'C:\Users\Evan\Desktop\experiment_code\Dual\'
+#DUAL_DIR = 'C:\Users\Evan\Desktop\experiment_code\Dual\'
 #Variables in Trial File
 TRIAL_NUM = []
 CAT = []
@@ -75,6 +75,7 @@ DUALSQ=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 DUALNWHITE=13
 TOTAL_N=15
 DUALCOUNTER=0
+DUALCOUNT=0
 
 #dimensions of white spatial grid bits:
 DTwidth = 20
@@ -86,7 +87,8 @@ DTmargin = 5 # This sets the margin between each cell
 Dualorder=[12, 13, 1, 8, 1, 13, 13, 15, 3, 8, 8, 9, 11, 5, 6, 15, 3, 7, 13, 13, 3, 14, 7, 5, 6, 1, 1, 14, 7, 9, 9, 11, 2, 10, 5, 8, 10, 9, 12, 6, 15, 2, 7, 1, 10, 11, 8, 15, 14, 6, 7, 11, 1, 6, 15, 5, 11, 13, 10, 12, 4, 2, 1, 12, 9, 11, 14, 11, 11, 7, 12, 12, 14, 3, 1, 8, 13, 12, 15, 9, 14, 10, 7, 6, 5, 2, 13, 10, 8, 12, 3, 4, 2, 2, 1, 6, 9, 15, 11, 12, 4, 11, 15, 2, 9, 4, 8, 12, 10, 12, 9, 1, 4, 13, 3, 15, 3, 14, 4, 2, 2, 3, 9, 10, 3, 14, 15, 8, 4, 7, 5, 15, 5, 15, 14, 10, 4, 3, 5, 5, 4, 6, 13, 14, 7, 8, 2, 10, 7, 3, 5, 6, 1, 6, 11, 8, 5, 10, 14, 1, 3, 4, 2, 12, 5, 11, 7, 14, 9, 9, 6, 13, 7, 8, 6, 4, 2, 13, 10, 4, 12, 13, 1, 8, 1, 13, 13, 15, 3, 8, 8, 9, 11, 5, 6, 15, 3, 7, 13, 13, 3, 14, 7, 5, 6, 1, 1, 14, 7, 9, 9, 11, 2, 10, 5, 8, 10, 9, 12, 6, 15, 2, 7, 1, 10, 11, 8, 15, 14, 6, 7, 11, 1, 6, 15, 5, 11, 13, 10, 12, 4, 2, 1, 12, 9, 11, 14, 11, 11, 7, 12, 12, 14, 3, 1, 8, 13, 12, 15, 9, 14, 10, 7, 6, 5, 2, 13, 10, 8, 12, 3, 4, 2, 2, 1, 6, 9, 15, 11, 12, 4, 11, 15, 2, 9, 4, 8, 12, 10, 12, 9, 1, 4, 13, 3, 15, 3, 14, 4, 2, 2, 3, 9, 10, 3, 14, 15, 8, 4, 7, 5, 15, 5, 15, 14, 10, 4, 3, 5, 5, 4, 6, 13, 14, 7, 8, 2, 10, 7, 3, 5, 6, 1, 6, 11, 8, 5, 10, 14, 1, 3, 4, 2, 12, 5, 11, 7, 14, 9, 9, 6, 13, 7, 8, 6, 4, 2, 13, 10, 4]
 
 
-
+#Dual Trainnig
+training_total_runs = 6 #this is twice the number of trial n-back presentations
 
 
 
