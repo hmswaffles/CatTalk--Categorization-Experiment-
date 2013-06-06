@@ -125,10 +125,10 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
                         sys.exit()                          #Calls interrupt to end game
         if INSTRUCTIONS:
             screen.fill(BACKGROUND_COLOR)
-            my_rect = pygame.Rect((40, 40, 600, 600))
+            my_rect = pygame.Rect(40,40,700,700)
             text = render_textrect(INSTRUCTIONTEXT+str(N), font, my_rect, (255,148,0), (0,0,0),1)
             #text = font.render("INSTRUCTIONS", 1, (255,255,100))
-            self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-300,SCREEN_CENTER[1]-300)))
+            self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-350,SCREEN_CENTER[1]-300)))
             ScreenUpdate(self)
             time.sleep(1)
             for event in pygame.event.get():
