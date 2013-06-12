@@ -36,6 +36,8 @@ def Dual_order_gen_alt1(m):# for n-back ==1, m is blocks of 30, so m ==10 would 
         bb = a[3:]
         random.shuffle(aa)
         random.shuffle(bb)
+        #check to make sure the inner boarders aren't the same
+        #check to make sure that the m boarders aren't the same
         z = bb+aa
         
         for i in range(0,3):
@@ -97,7 +99,7 @@ def Dual_order_gen_alt2(m):# for n-back ==2, m is blocks of 30, so m ==10 would 
                 
         master_ls.append(order_ls)
         
-    return flatten(master_ls)
+    return flatten(master_ls)s
                 
 
 def flatten(l):#list flattener
