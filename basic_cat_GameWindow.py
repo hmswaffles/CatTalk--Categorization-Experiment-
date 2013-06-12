@@ -18,6 +18,8 @@ def ScreenUpdate(self):
 #This is the game window that prompts the user for the subjec name and trialset
 def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
     #This makes the initial window to get the trialset and data file name
+    self.screen.fill(BACKGROUND_COLOR)
+    pygame.display.flip()
     STILL_TYPING = True
     GET_SUBJECT = True
     GET_TRIALSET = False
@@ -126,7 +128,7 @@ def GameInputWindow(self,DATA_DIR,TRIALSET_DIR):
         if INSTRUCTIONS:
             screen.fill(BACKGROUND_COLOR)
             my_rect = pygame.Rect(40,40,700,700)
-            text = render_textrect(INSTRUCTIONTEXT+str(N), font, my_rect, (255,148,0), (0,0,0),1)
+            text = render_textrect(INSTRUCTIONTEXT+str(N), font, my_rect, (255,148,0), (120,120,120),1)
             #text = font.render("INSTRUCTIONS", 1, (255,255,100))
             self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-350,SCREEN_CENTER[1]-300)))
             ScreenUpdate(self)

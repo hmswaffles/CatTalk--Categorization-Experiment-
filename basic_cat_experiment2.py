@@ -149,9 +149,9 @@ class Game:
         DT12= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\12.png")
         DT13= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\13.png")
         DT14= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\14.png")
-        DT15= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\15.png")
+        #DT15= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\15.png")
         DUALRECT = DT0.get_rect()
-        dual_ls_image = [DT0,DT1,DT2,DT3,DT4,DT5,DT6,DT7,DT8,DT9,DT10,DT11,DT12,DT13,DT14,DT15]
+        dual_ls_image = [DT0,DT1,DT2,DT3,DT4,DT5,DT6,DT7,DT8,DT9,DT10,DT11,DT12,DT13,DT14,]
       
         if self.N ==1:
             Dualorder = Dualorder1
@@ -166,12 +166,12 @@ class Game:
             #dual task
         Adual="Was the previous image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
         Amy_rectt = pygame.Rect(((SCREEN_CENTER[0]-250,SCREEN_CENTER[1]-250),(SCREEN_CENTER[0]+250,SCREEN_CENTER[1]+250)))
-        ADualtext = render_textrect(Adual, font, Amy_rectt, (240,80,10), (0,0,0),1)
+        ADualtext = render_textrect(Adual, font, Amy_rectt, (0,0,0), (120,120,120),1)
 
             #dual training:
         dualtext="DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times, after which you will start the experiment proper. \n Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back "
         my_rectt = pygame.Rect((40, 40, 600, 600))
-        text_t = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0),1)        
+        text_t = render_textrect(dualtext, font, my_rectt, (0,0,0), (120,120,120),1)        
         #Game Pertinent Functions----------------------------------------------------------------------
         def CurrentEvent(self):
             if TRIAL_START:
@@ -386,7 +386,7 @@ class Game:
 
                 self.screen.fill(BACKGROUND_COLOR)
                 #self.draw_rectlist.append(pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2))
-                pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2)
+                pygame.draw.aaline(self.screen, (0,0,0), self.p1,self.p2,2)
                 pygame.display.flip()
 
 
@@ -941,7 +941,7 @@ class Game:
                 self.screen.fill(BACKGROUND_COLOR) 
                 dualtext="Was that grid image the same as the one "  + str(self.N) + " presentation(s) ago? \n Spacebar= Yes, Enter =No"
                 my_rectt = pygame.Rect((40, 40, 500, 500))
-                text = render_textrect(dualtext, font, my_rectt, (240,80,10), (0,0,0))
+                text = render_textrect(dualtext, font, my_rectt, (0,0,0), (120,120,120))
                 self.draw_rectlist.append(self.screen.blit(text, (SCREEN_CENTER[0]-250,SCREEN_CENTER[1]-250)))
                 pygame.display.update()
                 
@@ -1054,7 +1054,7 @@ class Game:
                 #print 'end'
                 textt = "The training is now over, press RETURN to start the experiment. Please categorize the lines with either 'k' or 'd'"
                 rect = pygame.Rect((100,100,400,400))
-                etext = render_textrect(textt,font,rect,(255,255,255), (0,0,0))
+                etext = render_textrect(textt,font,rect,(0,0,0), (120,120,120))
                 self.draw_rectlist.append(self.screen.blit(etext, (SCREEN_CENTER[0]-200,SCREEN_CENTER[1]-200)))
                 pygame.display.update()
                 #time.sleep(.1)

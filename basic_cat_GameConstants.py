@@ -33,7 +33,7 @@ four = (SCREEN_CENTER[0] + GAME_SIZE[0]/2, SCREEN_CENTER[1] - GAME_SIZE[1]/2)
 GAME_RECT = (one,two,three,four)
 
 
-BACKGROUND_COLOR = (0,0,0)          #Background screen color
+BACKGROUND_COLOR = (120,120,120)          #Background screen color
 SAMPLING_RATE = 100
 
 #Game timing info
@@ -43,7 +43,7 @@ REACTION_TIMEOUT_2 = 2.0
 FEEDBACK_TIME = 2.0
 ITI_TIME = 0.5
 BLOCKFB_TIME = 5.0
-SCORE_COLOR = (255,255,255)
+SCORE_COLOR = (0,0,0)
 
 #Filename directories
 TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\TargetFiles'

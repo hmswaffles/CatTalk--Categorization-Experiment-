@@ -25,4 +25,16 @@ def dual_tester(listnumb,n):#when its around 10%, I'll copy it into catgameconst
         total = total + count
     return total/len(listnumb)
 
+def Dual_order_gen_alt(n)
+    FOR SOME LOOOP
+        a = range(0,16)
+        b = a[0:3]
+        aa = a[3:]
+        c = random.shuffle(a)
+        d = random.shuffle(a)
+        e = c+d
+        
+                
+            
+
 

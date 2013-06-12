@@ -47,32 +47,39 @@ def dualtaskgenerator(numb_white):
 
 
     
-    random.shuffle(Master_ls)
+    #random.shuffle(Master_ls)
     dual_task_rect_ls = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-
+    whitecount=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    blackcount=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 
     for j in range(0,18):
-            whitecount =0
-            pattern=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-            color=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            pattern=['a']*25
+            color=['b']*25
             a=Master_ls[j]
-            b=a[0:12]
-            b.sort()
-            b=b+[0,0,0,0,0,0,0,0,0,0,0,0,0]
+            b=a[0:13]
+            #b.sort()
+            c = 25-len(b)
+            d = [0]*12
+            e=b+d
           
-            for i in range(0,24):
-                if i in b:
+            for i in range(0,25):
+                if (i+1) in b:
                     pattern[i]=1
-                    whitecount +=1
+                    whitecount[j] +=1
                 else:
                     pattern[i]=0
+                    blackcount[j] +=1
+                #if whitecount[j]=14
+
             for k in range(0,25):
                 if pattern[k]:
-                    color[k] = (254,254,254)
-                else:
-                    color[k]= (0,0,0)
+                        color[k] = (254,254,254)
+                else: color[k] = (0,0,0)
+
+  
             dual_task_rect_ls[j] = color
+         
 
     #now ready to draw the images and save them with pygame.
     print 'pre'
@@ -89,12 +96,12 @@ def dualtaskgenerator(numb_white):
         for im_numb in range(0,18):
             size = [255, 255]
             screen=pygame.display.set_mode(size)
-            pygame.time.wait(500)
+            pygame.time.wait(300)
             print im_numb
-            screen.fill((0,0,0))
+            screen.fill((120,120,120))
             pygame.display.flip
             a = dual_task_rect_ls[im_numb] # a is the list of colors
-            for square in range(0,24):
+            for square in range(0,25):
                 pygame.time.wait(100)
                 row=math.floor(square/5)
                 if square<5:
@@ -106,6 +113,8 @@ def dualtaskgenerator(numb_white):
             pygame.image.save(screen,os.path.join(DUAL_DIR, str(im_numb)+'.png'))
             if im_numb== 17:
                 done = True
+                pygame.display.quit()   #Closes the display
+                sys.exit()
         
     #    for event in pygame.event.get(): # User did something
     #        if event.type == pygame.QUIT: # If user clicked close
