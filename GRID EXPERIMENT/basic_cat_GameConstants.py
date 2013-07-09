@@ -46,9 +46,9 @@ BLOCKFB_TIME = 5.0
 SCORE_COLOR = (0,0,0)
 
 #Filename directories
-TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\TargetFiles'
-DATA_DIR = 'C:\Users\Evan\Desktop\experiment_code\Data'
-STIMULI_DIR = 'C:\Users\Evan\Desktop\experiment_code\Stimuli'
+TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\TargetFiles'
+DATA_DIR = 'C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\Data'
+STIMULI_DIR = 'C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\Stimuli'
 #DUAL_DIR = 'C:\Users\Evan\Desktop\experiment_code\Dual\'
 #Variables in Trial File
 TRIAL_NUM = []
@@ -93,11 +93,9 @@ Dualorder2= [11, 3, 9, 0, 2, 0, 13, 4, 12, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11
 #0.11333333333333333
 
 #Dual Trainnig
-training_total_runs = 6 #this is twice the number of trial n-back presentations
+training_total_runs = 6 #this is twice the number of  the minimum trial n-back presentations
 
-
-
-#fhajgvarlvhnaejlvhnbvlnj
+DTtrainingorder = [11, 3, 9, 9, 9, 2, 0, 13, 4, 12, 6, 6, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11, 1,  7, 10, 14, 10, 14, 14, 8, 1, 9, 4, 7, 7, 12, 10, 8, 9 ]
 
 
 
@@ -105,4 +103,4 @@ training_total_runs = 6 #this is twice the number of trial n-back presentations
 INSTRUCTIONTEXT= """INSTRUCTIONS: \n You will be presented with a series of lines drawn from two different categories. \n
 Your mission, should you choose to accept it, is to figure out the categories- lines can be classified by pressing either 'k' or 'd' 
 \n Be sure to be quick about it, or a time penalty will be enforced. \n There is also a secondary, concurrent task which the RA will explain.
-N-BACK = """
+"""

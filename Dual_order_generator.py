@@ -99,7 +99,7 @@ def Dual_order_gen_alt2(m):# for n-back ==2, m is blocks of 30, so m ==10 would 
                 
         master_ls.append(order_ls)
         
-    return flatten(master_ls)s
+    return flatten(master_ls)
                 
 
 def flatten(l):#list flattener
@@ -112,6 +112,105 @@ def flatten(l):#list flattener
   return out        
         
                 
-            
+def Dual_order_gen_gen(m,j,nback):# for n-back ==2, m is blocks of 30, so m ==10 would yield a list 300 items long
+    """for the 50% orders"""
+    """m is the number of 30blocks, j is the number out of 15 to repeat"""
+    
+    master_ls=[]
+    flag = False
+    altflag = False
+    for k in range(0,m):
+        print 'k',k
+        order_ls = []
+        a = range(0,15)
+        random.shuffle(a)
+        b = a[0:j]
+        aa = a[j:]
+        bb = a[j:]
+        random.shuffle(aa)
+        random.shuffle(bb)
+        z = bb+aa
+        f = [0,1,2,3,4,5,6,7,8]
+             
 
+        if nback ==1:    
+            for i in range(0,j):
+                d = random.randint(0,8)
+                for y in range(0,8):
+                    if y == d:
+                        numb =  [b[i],b[i]]
+                    else:
+                        index = y*(i+1)
+                        numb = z[index]
+                        
 
+                    order_ls.append(numb)
+            master_ls.append(order_ls)
+                    
+        elif nback == 2:
+            for i in range(0,j):
+                d = random.sample(f,j)
+                for y in range(0,8):
+                    index = y*(i+1)
+
+                    
+                    if y == d[i]:
+                        numb =  [b[i],z[index],b[i]]
+                        flag = True
+                  #  elif flag:
+                  #      flag = False
+                  #      altflag = True
+                  #      pass
+                  #  elif altflag:
+                  #      altflag= False
+                  #      pass
+                    else:
+
+                        numb = z[index]
+
+                    order_ls.append(numb)
+              
+                
+            master_ls.append(order_ls)
+        
+    return flatten(master_ls)
+                            
+
+def last_generator(blocks,xof15,nback):
+    master_ls=[]
+    for g in range(0,blocks):
+        block_ls = []
+        a = range(0,15)
+        random.shuffle(a)
+        b = a[0:xof15]
+        aa = a[xof15:]
+        bb = a[xof15:]
+        random.shuffle(aa)
+        random.shuffle(bb)
+        z = bb+aa
+        d = range(0,15)
+        c = random.sample(b,xof15)
+       # print c
+        for t in range(0,2):         
+            for i in range(0,15):#selects which number in c
+                index = (t+1)*i
+                if len(c)==0:
+                    pass
+                elif c[0]==i:
+                    c = c[1:]
+                    #start nback bit
+
+                    if nback ==1:
+                        numb = [b[0],b[0]]
+                    elif nback ==2:
+                        numb = [b[0],z[index],b[0]]
+                    b = b[1:]
+                    
+                else:
+                    numb=z[index]
+                block_ls.append(numb)
+        master_ls.append(block_ls)
+    return flatten(master_ls)
+                
+                
+        
