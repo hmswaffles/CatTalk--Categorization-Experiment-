@@ -23,6 +23,7 @@ def dual_tester(listnumb,n):#when its around 10%, I'll copy it into catgameconst
         else:
             count = 0
         total = total + count
+        
     return total/len(listnumb)
 
 def Dual_order_gen_alt1(m):# for n-back ==1, m is blocks of 30, so m ==10 would yield a list 300 items long
@@ -212,5 +213,60 @@ def last_generator(blocks,xof15,nback):
         master_ls.append(block_ls)
     return flatten(master_ls)
                 
+def last_generator2(blocks,xof15,nback):
+    master_ls=[]
+    x = xof15
+    for g in range(0,blocks):
+        block_ls = []
+        a = range(0,15)
+        random.shuffle(a)
+        b = a[0:x]
+        aa = a[x:]
+        bb = a[x:]
+        z = bb+aa
+        random.shuffle(z)
+        #print len(z)
+        cflag=0
+        doubleflag = False
+        for t in range(0,2):
+            b.sort()
+            print b
+            c = b
+            for i in range(0,15):#selects which number in c
+                index = i
+                print cflag
+                print 'block_ls'
+                print block_ls
+                if len(c) == 0:
+                    numb=z[index]
+                    block_ls.append(numb)
+                elif doubleflag:
+                    doubleflag=False
+                    if nback == 1:
+                        numb = []
+                    elif nback==2:
+                        numb = [[],[],[]]
+                    block_ls.append(numb)
+                    
+                elif i==c[cflag]:
+                    doubleflag = True
+                    if nback ==1:
+                        numb = [c[0],c[0]]
+                        block_ls.append(numb)
+                        if cflag<len(c):
+                            cflag += 1
+                    
                 
+                        
+                    elif nback ==2:
+                        numb = [c[0],z[index],c[0]]
+                        block_ls.append(numb)
+                        if cflag<len(c):
+                            cflag += 1
+                    
+                else:
+                    numb=z[index]
+                    block_ls.append(numb)
+        master_ls.append(block_ls)
+    return flatten(master_ls)
         

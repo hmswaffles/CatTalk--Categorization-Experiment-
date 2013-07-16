@@ -41,10 +41,10 @@ generates the words for the verbal interefernce dual task. if wordparameter is
             screen=pygame.display.set_mode(size)
             pygame.time.wait(300)
             print word_numb
-
+            screen.fill((120,120,120))
             background = pygame.Surface(screen.get_size())
-            background = background.convert()
-            background.fill((250, 250, 250))
+            #background = background.convert()
+            background.fill((120, 120, 120))
             
             
             a = words[word_numb] #a is now the list of words, specified above
