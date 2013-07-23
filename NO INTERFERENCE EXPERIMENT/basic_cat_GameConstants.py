@@ -5,6 +5,155 @@ import os
 from pygame.locals import *
 import random
 
+
+#before all of the constants, the function to generate the order of the dual task
+def last_generator2(blocks,xof15,nback):
+    
+    """ x can't be more than 7 """
+    
+    master_ls=[]
+    x = xof15*2
+    #workinglist=[]
+    #global workinglist 
+    
+    for g in range(0,blocks):
+        block_ls = []
+        a = range(0,15)
+        random.shuffle(a)
+        b = a[0:x]
+        aa = a[x:]
+        bb = a[x:]
+        z = bb+aa
+        random.shuffle(z)
+        #print len(z)
+        cflag=0
+        doubleflag = False
+        Blanks = False
+        doubleflagvalue = 0
+        #print b
+        length = len(b)
+        l = int(length/2)
+        #print l
+        
+        #
+        workinglist=[]
+        for t in range(0,2):
+            random.shuffle(z)
+            b.sort()
+            #print b
+            c = b
+            firsthalf= c[0:l]
+            secondhalf= c[l:]
+            
+           # print 'firsthalf',firsthalf
+           # print 'secondhalf',secondhalf
+        
+            workinglist = [firsthalf,secondhalf]
+    
+           # print 'w', workinglist
+            #print 'cflag', cflag
+            cflag=0
+            for i in range(0,15):#selects which number in c
+                index = i
+##                print 'cflag', cflag
+##                print 'w', workinglist
+##                print 't', t
+##                
+                
+                if len(c) == 0:
+                    pass
+                    #numb=z[index]
+                    #block_ls.append(numb)
+                    
+                    
+                #elif i==c[cflag] and not doubleflag:
+                #elif i ==workinglist[cflag][0]:
+##                elif i==14 and t==1: #base case, last time through:
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[],[]]
+##                    block_ls.append(numb)    
+                elif i==c[cflag]:
+                    doubleflag = True
+                    if nback ==1:
+                        numbed = workinglist[t][cflag]
+                        numb =  [numbed,numbed]
+                        block_ls.append(numb)
+                        if cflag< (len(firsthalf)-1):
+                           cflag += 1
+                    elif nback ==2:
+                        numb = [workinglist[t][cflag],z[index],workinglist[t][cflag]]
+                        block_ls.append(numb)
+                        if cflag< (len(firsthalf)-1):
+                           cflag += 1
+             #   elif t == 1 and
+                           
+##                elif i in workinglist[t] and doubleflag:
+##                    Blanks= True
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[]]
+##                    block_ls.append(numb)
+##                    doubleflag= False
+##                    
+##                elif doubleflag and not Blanks: #what if we are passed the index? i wont be in working list
+##                    doubleflag = False
+##                    Blanks = False #resetting for next time
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[]]
+##                    block_ls.append(numb)
+                elif doubleflag:
+                    doubleflag = False
+                    Blanks = True #resetting for next time
+                    if nback == 1:
+                        numb = []
+                    elif nback==2:
+                        numb = [[],[]]
+                    block_ls.append(numb)
+                elif Blanks and nback ==2:
+                    Blanks =False
+                    numb = []
+                    block_ls.append(numb)
+                    
+                    
+                else:
+                    numb=z[index]
+                    block_ls.append(numb)
+                   # print numb
+##                print 'block_ls'
+##                print block_ls
+        master_ls.append(block_ls)
+    return flatten(master_ls)
+
+def flatten(l):#list flattener
+  out = []
+  for item in l:
+    if isinstance(item, (list, tuple)):
+      out.extend(flatten(item))
+    else:
+      out.append(item)
+  return out 
+
+
+
+
+
+
+
+
+
+#BEGIN CONSTANTS
+
+
+
+
+
+
+
 #Initialize Pygame
 pygame.init()
 #Set Mouse to not show
@@ -36,7 +185,7 @@ GAME_RECT = (one,two,three,four)
 BACKGROUND_COLOR = (120,120,120)          #Background screen color
 SAMPLING_RATE = 100
 
-#Game timing info
+#Game timing info--------------------------------------------------------------
 FIXATION_TIME = 1
 REACTION_TIMEOUT_1 = 3.0
 REACTION_TIMEOUT_2 = 3.0
@@ -47,9 +196,9 @@ SCORE_COLOR = (0,0,0)
 MAX_STIMULI_PRESENTATION_TIME = 4.0
 
 #Filename directories
-TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\NO INTEREFERENCE EXPERIMENT\TargetFiles'
-DATA_DIR = 'C:\Users\Evan\Desktop\experiment_code\NO INTEREFERENCE EXPERIMENT\Data'
-STIMULI_DIR = 'C:\Users\Evan\Desktop\experiment_code\NO INTEREFERENCE EXPERIMENT\Stimuli'
+TRIALSET_DIR = 'C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\TargetFiles'
+DATA_DIR = 'C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Data'
+STIMULI_DIR = 'C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Stimuli'
 #DUAL_DIR = 'C:\Users\Evan\Desktop\experiment_code\Dual\'
 #Variables in Trial File
 TRIAL_NUM = []
@@ -84,24 +233,35 @@ DTheight = 20
 DTmargin = 5 # This sets the margin between each cell
 
 
-Dualorder1=[8, 5, 3, 2, 0, 6, 10, 9, 9, 8, 3, 0, 10, 4, 14, 6, 1, 1, 11, 11, 2, 10, 13, 6, 7, 10, 14, 10, 14, 8, 1, 9, 4, 7, 7, 12, 10, 8, 9, 5, 2, 2, 6, 13, 1, 10, 1, 5, 3, 13, 0, 0, 11, 5, 8, 6, 14, 4, 3, 9, 10, 11, 8, 14, 3, 10, 1, 1, 13, 3, 11, 8, 4, 10, 5, 5, 3, 12, 10, 4, 5, 11, 1, 0, 14, 3, 3, 2, 12, 5, 1, 14, 2, 7, 9, 12, 8, 5, 0, 4, 4, 6, 12, 6, 11, 1, 12, 2, 9, 3, 3, 14, 6, 11, 7, 12, 9, 14, 11, 10, 0, 0, 7, 13, 12, 13, 11, 5, 7, 1, 1, 9, 8, 14, 8, 13, 1, 12, 3, 7, 4, 4, 14, 13, 12, 7, 0, 10, 10, 0, 13, 14, 1, 7, 9, 9, 0, 1, 14, 3, 8, 7, 3, 10, 5, 5, 14, 1, 2, 8, 3, 12, 1, 4, 4, 6, 3, 8, 8, 10, 1, 13, 13, 3, 9, 10, 6, 11, 7, 5, 6, 4, 10, 14, 1, 1, 11, 5, 4, 14, 3, 9, 9, 3, 8, 11, 6, 14, 13, 3, 0, 0, 14, 2, 13, 2, 9, 0, 5, 8, 1, 6, 6, 10, 10, 9, 5, 1, 11, 12, 11, 8, 13, 14, 14, 1, 3, 11, 7, 13, 5, 13, 13, 11, 2, 4, 6, 9, 14, 5, 1, 2, 6, 7, 7, 12, 3, 9, 0, 1, 4, 14, 8, 10, 10, 2, 8, 3]
+#Dualorder1=[8, 5, 3, 2, 0, 6, 10, 9, 9, 8, 3, 0, 10, 4, 14, 6, 1, 1, 11, 11, 2, 10, 13, 6, 7, 10, 14, 10, 14, 8, 1, 9, 4, 7, 7, 12, 10, 8, 9, 5, 2, 2, 6, 13, 1, 10, 1, 5, 3, 13, 0, 0, 11, 5, 8, 6, 14, 4, 3, 9, 10, 11, 8, 14, 3, 10, 1, 1, 13, 3, 11, 8, 4, 10, 5, 5, 3, 12, 10, 4, 5, 11, 1, 0, 14, 3, 3, 2, 12, 5, 1, 14, 2, 7, 9, 12, 8, 5, 0, 4, 4, 6, 12, 6, 11, 1, 12, 2, 9, 3, 3, 14, 6, 11, 7, 12, 9, 14, 11, 10, 0, 0, 7, 13, 12, 13, 11, 5, 7, 1, 1, 9, 8, 14, 8, 13, 1, 12, 3, 7, 4, 4, 14, 13, 12, 7, 0, 10, 10, 0, 13, 14, 1, 7, 9, 9, 0, 1, 14, 3, 8, 7, 3, 10, 5, 5, 14, 1, 2, 8, 3, 12, 1, 4, 4, 6, 3, 8, 8, 10, 1, 13, 13, 3, 9, 10, 6, 11, 7, 5, 6, 4, 10, 14, 1, 1, 11, 5, 4, 14, 3, 9, 9, 3, 8, 11, 6, 14, 13, 3, 0, 0, 14, 2, 13, 2, 9, 0, 5, 8, 1, 6, 6, 10, 10, 9, 5, 1, 11, 12, 11, 8, 13, 14, 14, 1, 3, 11, 7, 13, 5, 13, 13, 11, 2, 4, 6, 9, 14, 5, 1, 2, 6, 7, 7, 12, 3, 9, 0, 1, 4, 14, 8, 10, 10, 2, 8, 3]
 #>>> dual_tester(a,1)
 #0.10820895522388059
 #generated with Dual_order_gen_alt1
 
-Dualorder2= [11, 3, 9, 0, 2, 0, 13, 4, 12, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11, 11, 2, 12, 8, 5, 4, 5, 13, 2, 6, 13, 4, 9, 12, 2, 12, 0, 10, 5, 7, 13, 9, 0, 5, 11, 8, 7, 1, 0, 1, 13, 2, 5, 14, 7, 3, 5, 3, 14, 8, 7, 5, 14, 6, 14, 8, 13, 2, 12, 0, 7, 6, 1, 13, 1, 12, 3, 10, 6, 2, 7, 8, 12, 11, 4, 6, 4, 12, 5, 7, 12, 4, 13, 1, 6, 1, 14, 7, 3, 0, 12, 13, 14, 3, 11, 10, 11, 8, 10, 9, 12, 6, 3, 5, 10, 5, 12, 2, 0, 2, 13, 9, 11, 1, 14, 12, 4, 8, 2, 8, 13, 0, 11, 0, 14, 4, 10, 5, 7, 12, 13, 1, 3, 4, 3, 6, 7, 11, 4, 5, 14, 3, 1, 9, 1, 10, 6, 5, 11, 12, 14, 9, 6, 11, 4, 7, 0, 7, 10, 9, 14, 10, 11, 2, 13, 2, 10, 4, 8, 0, 8, 3, 4, 3, 2, 7, 11, 0, 5, 14, 8, 2, 11, 9, 5, 9, 12, 1, 5, 2, 10, 8, 10, 7, 5, 6, 5, 0, 11, 7, 3, 11, 2, 0, 7, 0, 13, 5, 1, 6, 3, 2, 14, 13, 14, 1, 12, 8, 7, 12, 3, 7, 1, 9, 7, 13, 4, 6, 4, 10, 10, 0, 7, 2, 9, 13, 9, 3, 6, 5, 10, 7, 13, 6, 12, 14, 3, 4, 2, 4, 10, 2, 6, 8, 1, 8, 3, 7, 12, 13, 8, 6, 0, 7, 9, 10, 9, 12, 13, 14, 8, 0, 10, 4, 13, 4, 3, 2, 13, 14, 8, 7, 13, 11, 13, 5, 8, 1, 10, 1]
+#Dualorder2= [11, 3, 9, 0, 2, 0, 13, 4, 12, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11, 11, 2, 12, 8, 5, 4, 5, 13, 2, 6, 13, 4, 9, 12, 2, 12, 0, 10, 5, 7, 13, 9, 0, 5, 11, 8, 7, 1, 0, 1, 13, 2, 5, 14, 7, 3, 5, 3, 14, 8, 7, 5, 14, 6, 14, 8, 13, 2, 12, 0, 7, 6, 1, 13, 1, 12, 3, 10, 6, 2, 7, 8, 12, 11, 4, 6, 4, 12, 5, 7, 12, 4, 13, 1, 6, 1, 14, 7, 3, 0, 12, 13, 14, 3, 11, 10, 11, 8, 10, 9, 12, 6, 3, 5, 10, 5, 12, 2, 0, 2, 13, 9, 11, 1, 14, 12, 4, 8, 2, 8, 13, 0, 11, 0, 14, 4, 10, 5, 7, 12, 13, 1, 3, 4, 3, 6, 7, 11, 4, 5, 14, 3, 1, 9, 1, 10, 6, 5, 11, 12, 14, 9, 6, 11, 4, 7, 0, 7, 10, 9, 14, 10, 11, 2, 13, 2, 10, 4, 8, 0, 8, 3, 4, 3, 2, 7, 11, 0, 5, 14, 8, 2, 11, 9, 5, 9, 12, 1, 5, 2, 10, 8, 10, 7, 5, 6, 5, 0, 11, 7, 3, 11, 2, 0, 7, 0, 13, 5, 1, 6, 3, 2, 14, 13, 14, 1, 12, 8, 7, 12, 3, 7, 1, 9, 7, 13, 4, 6, 4, 10, 10, 0, 7, 2, 9, 13, 9, 3, 6, 5, 10, 7, 13, 6, 12, 14, 3, 4, 2, 4, 10, 2, 6, 8, 1, 8, 3, 7, 12, 13, 8, 6, 0, 7, 9, 10, 9, 12, 13, 14, 8, 0, 10, 4, 13, 4, 3, 2, 13, 14, 8, 7, 13, 11, 13, 5, 8, 1, 10, 1]
 #>>> dual_tester(a,2)
 #0.11333333333333333
 
-#Dual Trainnig
-training_total_runs = 6 #this is twice the number of  the minimum trial n-back presentations
+#Dual Order
+#change these parameters to alter the nature of dual task 
 
-DTtrainingorder = [11, 3, 9, 9, 9, 2, 0, 13, 4, 12, 6, 6, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11, 1,  7, 10, 14, 10, 14, 14, 8, 1, 9, 4, 7, 7, 12, 10, 8, 9 ]
+Dualorder1 = last_generator2(10,1,1)
+Dualorder2 = last_generator2(10,1,2)
+
+#Dual Trainnig
+training_total_runs = 8 #this is twice the number of  the minimum trial n-back presentations
+
+DTtrainingorder = [11, 3, 9, 1, 9, 2, 0, 13, 4, 4, 12, 6, 6, 6, 11, 9, 10, 13, 10, 12, 7, 1, 4, 11, 1,  7, 10, 14, 10, 14, 14, 8, 1, 9, 4, 7, 7, 12, 10, 8, 9,10, 9, 9, 8, 3, 0, 10, 4, 14, 6, 1, 1, 11, ]
 
 
 
 #Instruction Text
 INSTRUCTIONTEXT= """INSTRUCTIONS: \n You will be presented with a series of lines drawn from two different categories. \n
-Your mission, should you choose to accept it, is to figure out the categories- lines can be classified by pressing either 'k' or 'd' 
+Your mission, should you choose to accept it, is to figure out the categories- lines can be classified by pressing some combination of the following 'k','l','s' and/or 'd' 
 \n Be sure to be quick about it, or a time penalty will be enforced. \n There is also a secondary, concurrent task which the RA will explain.
 """
+
+
+
+Dualorder1 = last_generator2(10,1,1)
+Dualorder2 = last_generator2(10,1,2)

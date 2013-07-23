@@ -134,7 +134,7 @@ class Game:
         invalidsound.set_volume(.6)
         slowsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Soundeffects\SLOWWW.wav")
         slowsound.set_volume(.2)
-
+##
 ##        #Loading dual task imagesprint 'loading images'
 ##        DT0= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\0.png")
 ##        DT1= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\1.png")
@@ -164,7 +164,7 @@ class Game:
 ##            print'please generate a dualorder list, save it as Dualordern in basic_cat_game_constants'," then edit line ~160 in basic_cat_exp"
 ##            pygame.display.quit()   #Closes the display
 ##            sys.exit()
-            
+##            
 ##        #dual text- renders here as to avoid flickering whilst in-loop
 ##            #dual task
 ##        Adual="Was the previous image the same as the one " + ' ' + str(self.N)+ ' '+ "presentation(s) ago? \n Spacebar= Yes, Enter =No"
@@ -172,7 +172,10 @@ class Game:
 ##        ADualtext = render_textrect(Adual, font, Amy_rectt, (0,0,0), (120,120,120),1)
 ##
 ##            #dual training:
-##        dualtext="DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times, after which you will start the experiment proper. \n You will be shown different grids of black and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back "
+##        #dualtext="""DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times,
+##        #after which you will start the experiment proper. \n You will be shown different grids of black
+##        #and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back """
+##        dualtext = "DUAL TASK TRAINING.  You will be shown different words. Please indicate whether the WORD is the same word"+ str(self.N)+"presentations back by pressing SPACEBAR if they are the same, and RETURN if not"
 ##        my_rectt = pygame.Rect((40, 40, 700, 700))
 ##        text_t = render_textrect(dualtext, font, my_rectt, (0,0,0), (120,120,120),1)        
         #Game Pertinent Functions----------------------------------------------------------------------
@@ -251,8 +254,22 @@ class Game:
         trial_first_loop = True
         training = True
 
+
+
+        paused = False
+
+       
+                  
+
+            
         #This is the main trial loop---------------------------------------------------------------------------
         while trialnum < self.trialset_len:
+
+        
+           
+
+
+            
             
             #Update Event Codes and timing
             #Set clock speed
@@ -268,6 +285,17 @@ class Game:
         
             #Update trial flag
             CurrentEvent(self)
+
+            
+            
+            #mini-pause loop--------------------------------------------------------
+            while paused:
+                screen.fill(0,0,0)
+                font.render("Paused", (125,125,125))
+                for event in pygame.event.get():
+                    if event.key == pygame.K_SHIFT:
+                        paused = (True, False)[paused]
+
             
             if STIMULUS == False:
                 for event in pygame.event.get():
@@ -659,13 +687,13 @@ class Game:
 ##                        ITI = True
 ##                        TOO_SLOW = False
 ##                        INVALID_KEY = False
-##                        DUAL_TASK_P = False
-##                        #DUAL_TASK_R = False
-##                        DUAL_TRAINING_T= False
-##                        DUAL_TRAINING_1 = False
-##                        DUAL_TRAINING_R = False
-##                        DUAL_TRAINING_N = False
-##                        DUAL_TRAINING_END = False
+####                        DUAL_TASK_P = False
+####                        #DUAL_TASK_R = False
+####                        DUAL_TRAINING_T= False
+####                        DUAL_TRAINING_1 = False
+####                        DUAL_TRAINING_R = False
+####                        DUAL_TRAINING_N = False
+####                        DUAL_TRAINING_END = False
 ##                        self.state_time = 0
 ##     
 ##                else:
@@ -938,7 +966,7 @@ class Game:
 ##                    correctresponse= 'space'
 ##                else:
 ##                    correctresponse= 'return'               
-##               # print 'TRAINING_R: ', self.DUAL_COUNT, training_total_runs,'n',self.N
+##                #print 'TRAINING_R: ', self.DUAL_COUNT, training_total_runs,'n',self.N
 ##                #self.DUAL_COUNT >= training_total_runs
 ##                #time.sleep(.1)
 ##                for event in pygame.event.get():
@@ -959,7 +987,7 @@ class Game:
 ##                            self.screen.fill(BACKGROUND_COLOR)
 ##                            pygame.display.update()
 ##                            
-##                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .65 and self.DUAL_COUNT > training_total_runs: #ending condition
+##                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .7 and self.DUAL_COUNT > training_total_runs: #ending condition
 ##                                DUAL_TRAINING_R = False
 ##                                DUAL_TRAINING_N = False
 ##                                DUAL_TRAINING_T = False
@@ -1094,8 +1122,8 @@ class Game:
 ##                            self.DUAL_COUNT = 0
 ##                            self.state_time=0
 ##                     
-##                      
-##                
+                      
+                
 
 
            
@@ -1140,7 +1168,7 @@ class Game:
                                 ITI = False
                                 TOO_SLOW = False
                                 INVALID_KEY = False
-                                #DUAL_TASK_R =False
+##                                #DUAL_TASK_R =False
 ##                                DUAL_TASK_P = False
 ##                                DUAL_TRAINING_T= False
 ##                                DUAL_TRAINING_1 = False
@@ -1186,14 +1214,14 @@ class Game:
                                 ITI = False
                                 TOO_SLOW = False
                                 INVALID_KEY = False
-##                                #DUAL_TASK_R =False
+                                #DUAL_TASK_R =False
 ##                                DUAL_TASK_P = False
 ##                                DUAL_TRAINING_T= False
 ##                                DUAL_TRAINING_1 = False
 ##                                DUAL_TRAINING_R = False
 ##                                DUAL_TRAINING_N = False
 ##                                DUAL_TRAINING_END = False
-##                        
+                        
                                 self.state_time = 0
 
                 elif self.between_blocks == 0:

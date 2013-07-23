@@ -1,2 +1,0 @@
-trial_num	cat	length	theta	resp	rt	DTcorrect	DTrt	
-1	1.0	72.0	1.0	2	0.566972284941	1	0	

@@ -214,8 +214,14 @@ def last_generator(blocks,xof15,nback):
     return flatten(master_ls)
                 
 def last_generator2(blocks,xof15,nback):
+    
+    """ x can't be more than 7 """
+    
     master_ls=[]
-    x = xof15
+    x = xof15*2
+    #workinglist=[]
+    #global workinglist 
+    
     for g in range(0,blocks):
         block_ls = []
         a = range(0,15)
@@ -228,45 +234,104 @@ def last_generator2(blocks,xof15,nback):
         #print len(z)
         cflag=0
         doubleflag = False
+        Blanks = False
+        doubleflagvalue = 0
+        #print b
+        length = len(b)
+        l = int(length/2)
+        #print l
+        
+        #
+        workinglist=[]
         for t in range(0,2):
+            random.shuffle(z)
             b.sort()
-            print b
+            #print b
             c = b
+            firsthalf= c[0:l]
+            secondhalf= c[l:]
+            
+           # print 'firsthalf',firsthalf
+           # print 'secondhalf',secondhalf
+        
+            workinglist = [firsthalf,secondhalf]
+    
+           # print 'w', workinglist
+            #print 'cflag', cflag
+            cflag=0
             for i in range(0,15):#selects which number in c
                 index = i
-                print cflag
-                print 'block_ls'
-                print block_ls
+##                print 'cflag', cflag
+##                print 'w', workinglist
+##                print 't', t
+##                
+                
                 if len(c) == 0:
-                    numb=z[index]
-                    block_ls.append(numb)
-                elif doubleflag:
-                    doubleflag=False
-                    if nback == 1:
-                        numb = []
-                    elif nback==2:
-                        numb = [[],[],[]]
-                    block_ls.append(numb)
+                    pass
+                    #numb=z[index]
+                    #block_ls.append(numb)
                     
+                    
+                #elif i==c[cflag] and not doubleflag:
+                #elif i ==workinglist[cflag][0]:
+##                elif i==14 and t==1: #base case, last time through:
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[],[]]
+##                    block_ls.append(numb)    
                 elif i==c[cflag]:
                     doubleflag = True
                     if nback ==1:
-                        numb = [c[0],c[0]]
+                        numbed = workinglist[t][cflag]
+                        numb =  [numbed,numbed]
                         block_ls.append(numb)
-                        if cflag<len(c):
-                            cflag += 1
-                    
-                
-                        
+                        if cflag< (len(firsthalf)-1):
+                           cflag += 1
                     elif nback ==2:
-                        numb = [c[0],z[index],c[0]]
+                        numb = [workinglist[t][cflag],z[index],workinglist[t][cflag]]
                         block_ls.append(numb)
-                        if cflag<len(c):
-                            cflag += 1
+                        if cflag< (len(firsthalf)-1):
+                           cflag += 1
+             #   elif t == 1 and
+                           
+##                elif i in workinglist[t] and doubleflag:
+##                    Blanks= True
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[]]
+##                    block_ls.append(numb)
+##                    doubleflag= False
+##                    
+##                elif doubleflag and not Blanks: #what if we are passed the index? i wont be in working list
+##                    doubleflag = False
+##                    Blanks = False #resetting for next time
+##                    if nback == 1:
+##                        numb = []
+##                    elif nback==2:
+##                        numb = [[],[]]
+##                    block_ls.append(numb)
+                elif doubleflag:
+                    doubleflag = False
+                    Blanks = True #resetting for next time
+                    if nback == 1:
+                        numb = []
+                    elif nback==2:
+                        numb = [[],[]]
+                    block_ls.append(numb)
+                elif Blanks and nback ==2:
+                    Blanks =False
+                    numb = []
+                    block_ls.append(numb)
+                    
                     
                 else:
                     numb=z[index]
                     block_ls.append(numb)
+                   # print numb
+##                print 'block_ls'
+##                print block_ls
         master_ls.append(block_ls)
     return flatten(master_ls)
         

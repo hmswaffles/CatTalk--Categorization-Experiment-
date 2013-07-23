@@ -172,7 +172,10 @@ class Game:
         ADualtext = render_textrect(Adual, font, Amy_rectt, (0,0,0), (120,120,120),1)
 
             #dual training:
-        dualtext="DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times, after which you will start the experiment proper. \n You will be shown different grids of black and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back "
+        #dualtext="""DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times,
+        #after which you will start the experiment proper. \n You will be shown different grids of black
+        #and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back """
+        dualtext = "DUAL TASK TRAINING.  You will be shown different words. Please indicate whether the WORD is the same word"+ str(self.N)+"presentations back by pressing SPACEBAR if they are the same, and RETURN if not"
         my_rectt = pygame.Rect((40, 40, 700, 700))
         text_t = render_textrect(dualtext, font, my_rectt, (0,0,0), (120,120,120),1)        
         #Game Pertinent Functions----------------------------------------------------------------------
@@ -984,7 +987,7 @@ class Game:
                             self.screen.fill(BACKGROUND_COLOR)
                             pygame.display.update()
                             
-                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .65 and self.DUAL_COUNT > training_total_runs: #ending condition
+                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .7 and self.DUAL_COUNT > training_total_runs: #ending condition
                                 DUAL_TRAINING_R = False
                                 DUAL_TRAINING_N = False
                                 DUAL_TRAINING_T = False
@@ -1231,7 +1234,7 @@ class Game:
                         GameHistoryUpdate(history)
                         
                         #Reinitialize everything
-                        f += 1
+                        trialnum += 1
                         self.trial_num = trialnum
                         num_samples = 0
                         trial_first_loop = True

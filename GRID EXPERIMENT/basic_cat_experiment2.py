@@ -126,32 +126,32 @@ class Game:
 
 
         #Initializing auditory feedback- loading sounds
-        incorrectsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\Soundeffects\FASTSAWING.wav")
+        incorrectsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Soundeffects\FASTSAWING.wav")
         incorrectsound.set_volume(.3)
-        correctsound =  pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\Soundeffects\HARP.wav")
+        correctsound =  pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Soundeffects\HARP.wav")
         correctsound.set_volume(.3)
-        invalidsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\Soundeffects\FIREBIRDHIT.wav")
+        invalidsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Soundeffects\FIREBIRDHIT.wav")
         invalidsound.set_volume(.6)
-        slowsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\GRID EXPERIMENT\oundeffects\SLOWWW.wav")
+        slowsound = pygame.mixer.Sound("C:\Users\Evan\Desktop\experiment_code\VERBAL EXPERIMENT\Soundeffects\SLOWWW.wav")
         slowsound.set_volume(.2)
 
         #Loading dual task imagesprint 'loading images'
-        DT0= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\0.png")
-        DT1= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\1.png")
-        DT2= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\2.png")
-        DT3= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\3.png")
-        DT4= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\4.png")
-        DT5= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\5.png")
-        DT6= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\6.png")
-        DT7= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\7.png")
+        DT0= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\0.png")
+        DT1= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\1.png")
+        DT2= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\2.png")
+        DT3= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\3.png")
+        DT4= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\4.png")
+        DT5= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\5.png")
+        DT6= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\6.png")
+        DT7= pygame.image.load("C:\\Users\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\7.png")
        
-        DT8= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\8.png")
-        DT9= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\9.png")
-        DT10= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\10.png")
-        DT11= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\11.png")
-        DT12= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\12.png")
-        DT13= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\13.png")
-        DT14= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\GRID EXPERIMENT\\Dual\\14.png")
+        DT8= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\8.png")
+        DT9= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\9.png")
+        DT10= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\10.png")
+        DT11= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\11.png")
+        DT12= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\12.png")
+        DT13= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\13.png")
+        DT14= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\VERBAL EXPERIMENT\\Dual\\14.png")
         #DT15= pygame.image.load("C:\\Users\\Evan\\Desktop\\experiment_code\\Dual\\15.png")
         DUALRECT = DT0.get_rect()
         dual_ls_image = [DT0,DT1,DT2,DT3,DT4,DT5,DT6,DT7,DT8,DT9,DT10,DT11,DT12,DT13,DT14,]
@@ -172,7 +172,10 @@ class Game:
         ADualtext = render_textrect(Adual, font, Amy_rectt, (0,0,0), (120,120,120),1)
 
             #dual training:
-        dualtext="DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times, after which you will start the experiment proper. \n You will be shown different grids of black and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back "
+        #dualtext="""DUAL TASK TRAINING. \n This will run" +' '+ str(training_total_runs/2) +' ' + " times,
+        #after which you will start the experiment proper. \n You will be shown different grids of black
+        #and white squares. Please remember the grid " +' '+ str(self.N)+' ' +  "presentation(s) back """
+        dualtext = "DUAL TASK TRAINING.  You will be shown different words. Please indicate whether the WORD is the same word"+ str(self.N)+"presentations back by pressing SPACEBAR if they are the same, and RETURN if not"
         my_rectt = pygame.Rect((40, 40, 700, 700))
         text_t = render_textrect(dualtext, font, my_rectt, (0,0,0), (120,120,120),1)        
         #Game Pertinent Functions----------------------------------------------------------------------
@@ -251,8 +254,22 @@ class Game:
         trial_first_loop = True
         training = True
 
+
+
+        paused = False
+
+       
+                  
+
+            
         #This is the main trial loop---------------------------------------------------------------------------
         while trialnum < self.trialset_len:
+
+        
+           
+
+
+            
             
             #Update Event Codes and timing
             #Set clock speed
@@ -268,6 +285,17 @@ class Game:
         
             #Update trial flag
             CurrentEvent(self)
+
+            
+            
+            #mini-pause loop--------------------------------------------------------
+            while paused:
+                screen.fill(0,0,0)
+                font.render("Paused", (125,125,125))
+                for event in pygame.event.get():
+                    if event.key == pygame.K_SHIFT:
+                        paused = (True, False)[paused]
+
             
             if STIMULUS == False:
                 for event in pygame.event.get():
@@ -293,7 +321,7 @@ class Game:
                 TOO_SLOW = False
                 INVALID_KEY = False
                 DUAL_TASK_P = False
-                DUAL_TASK_R =False
+                #DUAL_TASK_R =False
                 DUAL_TRAINING_T= True
                 DUAL_TRAINING_1 = False
                 DUAL_TRAINING_R = False
@@ -320,7 +348,7 @@ class Game:
                 TOO_SLOW = False
                 INVALID_KEY = False
                 DUAL_TASK_P = False
-                DUAL_TASK_R =False
+                #DUAL_TASK_R =False
                 DUAL_TRAINING_T= False
                 DUAL_TRAINING_1 = False
                 DUAL_TRAINING_R = False
@@ -352,7 +380,7 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P = False
-                    DUAL_TASK_R =False
+                    #DUAL_TASK_R =False
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
                     DUAL_TRAINING_R = False
@@ -389,7 +417,7 @@ class Game:
 
                 self.screen.fill(BACKGROUND_COLOR)
                 #self.draw_rectlist.append(pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,2))
-                pygame.draw.aaline(self.screen, (255,255,255), self.p1,self.p2,8)
+                pygame.draw.line(self.screen, (255,255,255), self.p1,self.p2,5)
                 pygame.display.flip()
 
 
@@ -431,7 +459,7 @@ class Game:
                             INVALID_KEY = True
                             invalidsoundflag = True
                             DUAL_TASK_P= False
-                            DUAL_TASK_R=False
+                            #DUAL_TASK_R=False
                             DUAL_TRAINING_T= False
                             DUAL_TRAINING_1 = False
                             DUAL_TRAINING_R = False
@@ -449,7 +477,7 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P= False
-                        DUAL_TASK_R=False
+                        #DUAL_TASK_R=False
                         DUAL_TRAINING_T= False
                         DUAL_TRAINING_1 = False
                         DUAL_TRAINING_R = False
@@ -458,7 +486,7 @@ class Game:
                         self.state_time = 0
                 
                 #Enforce response deadline
-                if self.state_time > 2.0:
+                if self.state_time > MAX_STIMULI_PRESENTATION_TIME:
                     TRIAL_START = False
                     STIMULUS = False
                     FEEDBACK = False
@@ -467,7 +495,7 @@ class Game:
                     slowsoundflag = True
                     INVALID_KEY = False
                     DUAL_TASK_P = False
-                    DUAL_TASK_R = False
+                    #DUAL_TASK_R = False
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
                     DUAL_TRAINING_R = False
@@ -514,7 +542,7 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P= True
-                    DUAL_TASK_R = False
+                    #DUAL_TASK_R = False
                     #DUALFLAG = True
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
@@ -533,12 +561,12 @@ class Game:
                 text = font.render("TOO SLOW!", 1, self.score_color)
                 self.screen.blit(text, (SCREEN_CENTER[0]-75,SCREEN_CENTER[1]-50))
                 pygame.display.flip()
-                GameHistoryUpdate(history)
+                
                 if slowsoundflag:
                     slowsound.play()
                 slowsoundflag=False
                 if self.state_time > 1.9:
-                    
+                    GameHistoryUpdate(history)  
                     #Update the game history right now
                     self.total_score += self.current_score
                     self.current_score = 0
@@ -564,7 +592,7 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P = True
-                    DUAL_TASK_R=False
+                    #DUAL_TASK_R=False
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
                     DUAL_TRAINING_R = False
@@ -584,7 +612,7 @@ class Game:
                 #self.draw_rectlist.append(self.screen.blit(text, SCREEN_CENTER))
                 self.screen.blit(text, (SCREEN_CENTER[0]-120,SCREEN_CENTER[1]-50))
                 pygame.display.flip()
-                GameHistoryUpdate(history)
+                
               
                
                 if invalidsoundflag:
@@ -592,6 +620,7 @@ class Game:
                     invalidsound.play()
                     invalidsoundflag = False
                 if self.state_time > 1.5:
+                    GameHistoryUpdate(history)
                     
                     #Update the game history right now
                     self.total_score += self.current_score
@@ -618,7 +647,7 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P= True
-                    DUAL_TASK_R = False
+                    #DUAL_TASK_R = False
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
                     DUAL_TRAINING_R = False
@@ -636,17 +665,18 @@ class Game:
                 #present in the n=1 back and the n=2 back, with a 10% possibility of repition
                 #use spacebar
                 #print self.DUAL_COUNT, self.Dual_Counter, 'n',self.N
+                
                 self.state_time += dt
                 CurrentEvent(self)
+                
                 #self.Dual_Counter is the index for the list of images, self.DUAL_COUNT increments each time dual task is presented
                 
                 self.screen.fill(BACKGROUND_COLOR)
                 image=dual_ls_image[Dualorder[self.Dual_Counter]]       
                 self.screen.blit(dual_ls_image[Dualorder[self.Dual_Counter]], (SCREEN_CENTER[0]-150,SCREEN_CENTER[1]-150))
                 pygame.display.flip()
-              
-                if self.state_time > DUAL_DISP_TIME:        
-                    if self.DUAL_COUNT<self.N:
+
+                if self.DUAL_COUNT<self.N:
                         #just display, if before the right amount of n
                         self.Dual_Counter += 1
                         self.DUAL_COUNT += 1
@@ -658,96 +688,71 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P = False
-                        DUAL_TASK_R = False
+                        #DUAL_TASK_R = False
                         DUAL_TRAINING_T= False
                         DUAL_TRAINING_1 = False
                         DUAL_TRAINING_R = False
                         DUAL_TRAINING_N = False
                         DUAL_TRAINING_END = False
                         self.state_time = 0
-                    
-                      
-                    else:#record response before moving on
-                        #print 'jjjjjjjjjjjjjjjj'
-                        self.screen.fill(BACKGROUND_COLOR)
-                        TRIAL_START = False
-                        STIMULUS = False
-                        FEEDBACK = False
-                        ITI = False
-                        TOO_SLOW = False
-                        INVALID_KEY = False
-                        DUAL_TASK_P = False
-                        DUAL_TRAINING_T= False
-                        DUAL_TRAINING_1 = False
-                        DUAL_TRAINING_R = False
-                        DUAL_TRAINING_N = False
-                        DUAL_TRAINING_END = False
-               
+     
+                else:
+                        self.screen.fill(BACKGROUND_COLOR)              
                         
                         if Dualorder[DUALCOUNTER] == Dualorder[DUALCOUNTER-self.N]:
                             correctresponse= 'space'
                         else:
                             correctresponse= 'return'
                             
-                        DUAL_TASK_R = True
-                        self.state_time = 0
-                        #self.Dual_Counter += 1--- this is incremented under DUAL_TASK_R. Don't ask me why I did that, I have no idea.
-                        self.DUAL_COUNT += 1
-                
-
-                
-
-
-                    
-            if DUAL_TASK_R:
-                
-                
-                self.state_time += dt
-                CurrentEvent(self)
-                #instruct and record
-                #display instruction
-                #oold dual task, paste here from bottom
-               # self.screen.fill(BACKGROUND_COLOR)  
-             #   self.screen.blit(ADualtext, (SCREEN_CENTER[0]-350,SCREEN_CENTER[1]-250))
-                #print 'dualRR'
-             #   pygame.display.flip()
-             #   time.sleep(1)#################################################
-                
+                      
                 for event in pygame.event.get():
                     if event.type == KEYDOWN:
+                        self.screen.fill(BACKGROUND_COLOR)
+                        
+                        if Dualorder[DUALCOUNTER] == Dualorder[DUALCOUNTER-self.N]:
+                            correctresponse= 'space'
+                        else:
+                            correctresponse= 'return'
+
                         
                         if event.dict['key'] == K_RETURN:
+                            
                             if 'return'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
                                 ITI=True
-                                DUAL_TASK_R=False
+                                DUAL_TASK_P=False
                                 self.Dual_Counter += 1
+                                self.DUAL_COUNT += 1
                                 self.state_time =0
                                 
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
                                 ITI=True
-                                DUAL_TASK_R=False
+                                DUAL_TASK_P=False
                                 self.Dual_Counter += 1
+                                self.DUAL_COUNT += 1
                                 self.state_time =0
                                 
                         elif event.dict['key'] == K_SPACE:
+                            
                             if 'space'==correctresponse:
                                 self.DTcorrect=1
                                 self.DTrt = self.state_time
                                 ITI=True
-                                DUAL_TASK_R=False
+                                DUAL_TASK_P=False
                                 self.Dual_Counter += 1
+                                self.DUAL_COUNT += 1
                                 self.state_time =0
                                 
                             else:
                                 self.DTcorrect=0
                                 self.DTrt = self.state_time
                                 ITI=True
-                                DUAL_TASK_R=False
+                                DUAL_TASK_P=False
                                 self.Dual_Counter += 1
+                                self.DUAL_COUNT += 1
                                 self.state_time =0
                                 
                         elif event.dict['key'] == K_ESCAPE:
@@ -755,9 +760,12 @@ class Game:
                             sys.exit() #does not save halfway, however. DONT PRESS ESCAPE!
                             break
                           
+              
+        
+                
         
                     
-                if self.state_time > 3.0:
+                if self.state_time > DUAL_DISP_TIME:
 
                     
                     TRIAL_START = False
@@ -767,7 +775,7 @@ class Game:
                     TOO_SLOW = False
                     INVALID_KEY = False
                     DUAL_TASK_P = False
-                    DUAL_TASK_R = False
+                    #DUAL_TASK_R = False
                     DUAL_TRAINING_T= False
                     DUAL_TRAINING_1 = False
                     DUAL_TRAINING_N= False
@@ -779,18 +787,7 @@ class Game:
                     self.state_time =0
 
                     
-##                        else:
-##                            TRIAL_START = False
-##                            STIMULUS = False
-##                            FEEDBACK = False
-##                            ITI = False
-##                            TOO_SLOW = False
-##                            INVALID_KEY = False
-##                            DUAL_TASK_P = False
-##                            DUAL_TASK_R = True
-##                            #DUALFLAG = True
-                            
-                            
+
                                  
                
                 
@@ -831,7 +828,7 @@ class Game:
                             TOO_SLOW = False
                             INVALID_KEY = False
                             DUAL_TASK_P = False
-                            DUAL_TASK_R = False
+                            #DUAL_TASK_R = False
                             DUAL_TRAINING_T = False
                             DUAL_TRAINING_1= True
                             DUAL_TRAINING_N = False
@@ -876,7 +873,7 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P = False
-                        DUAL_TASK_R = False
+                        #DUAL_TASK_R = False
                         DUAL_TRAINING_T = False
                         DUAL_TRAINING_END = False
                         DUAL_TRAINING_N = False
@@ -933,7 +930,7 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P = False
-                        DUAL_TASK_R = False
+                        #DUAL_TASK_R = False
                         DUAL_TRAINING_T= False
                         DUAL_TRAINING_1 = False
                         DUAL_TRAINING_R = True
@@ -969,7 +966,7 @@ class Game:
                     correctresponse= 'space'
                 else:
                     correctresponse= 'return'               
-               # print 'TRAINING_R: ', self.DUAL_COUNT, training_total_runs,'n',self.N
+                #print 'TRAINING_R: ', self.DUAL_COUNT, training_total_runs,'n',self.N
                 #self.DUAL_COUNT >= training_total_runs
                 #time.sleep(.1)
                 for event in pygame.event.get():
@@ -990,7 +987,7 @@ class Game:
                             self.screen.fill(BACKGROUND_COLOR)
                             pygame.display.update()
                             
-                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .65 and self.DUAL_COUNT > training_total_runs: #ending condition
+                            if self.DTtotalcorrect/(self.DUAL_COUNT-self.N) > .7 and self.DUAL_COUNT > training_total_runs: #ending condition
                                 DUAL_TRAINING_R = False
                                 DUAL_TRAINING_N = False
                                 DUAL_TRAINING_T = False
@@ -1067,7 +1064,7 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P = False
-                        DUAL_TASK_R = False
+                        #DUAL_TASK_R = False
                         DUAL_TRAINING_T= False
                         self.state_time=0
 
@@ -1113,7 +1110,7 @@ class Game:
                             TOO_SLOW = False
                             INVALID_KEY = False
                             DUAL_TASK_P = False
-                            DUAL_TASK_R = False
+                            #DUAL_TASK_R = False
                             DUAL_TRAINING_T = False
                             DUAL_TRAINING_1= False
                             DUAL_TRAINING_R= False
@@ -1171,7 +1168,7 @@ class Game:
                                 ITI = False
                                 TOO_SLOW = False
                                 INVALID_KEY = False
-                                DUAL_TASK_R =False
+                                #DUAL_TASK_R =False
                                 DUAL_TASK_P = False
                                 DUAL_TRAINING_T= False
                                 DUAL_TRAINING_1 = False
@@ -1217,7 +1214,7 @@ class Game:
                                 ITI = False
                                 TOO_SLOW = False
                                 INVALID_KEY = False
-                                DUAL_TASK_R =False
+                                #DUAL_TASK_R =False
                                 DUAL_TASK_P = False
                                 DUAL_TRAINING_T= False
                                 DUAL_TRAINING_1 = False
@@ -1257,7 +1254,7 @@ class Game:
                         TOO_SLOW = False
                         INVALID_KEY = False
                         DUAL_TASK_P = False
-                        DUAL_TASK_R = False
+                        #DUAL_TASK_R = False
                         DUAL_TRAINING_T= False
                         DUAL_TRAINING_1 = False
                         DUAL_TRAINING_R = False

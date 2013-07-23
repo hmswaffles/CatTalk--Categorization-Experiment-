@@ -181,8 +181,6 @@ def WriteGameData(self,DATA_DIR,history,history_keys,):
     data_file.close()
 
     if self.trial_num == self.trialset_len-1:
-        print self.trial_num
-        print self.trialset_len-1
         pygame.display.quit()   #Closes the display
         sys.exit()              #Calls interrupt to end game
 
